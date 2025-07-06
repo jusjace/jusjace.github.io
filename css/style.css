@@ -1,0 +1,152 @@
+/* Import Google Fonts for 'Inter' */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+/* Apply Inter font to the entire body */
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    /* Removed 'overflow: hidden;' from here to allow natural scrolling */
+}
+
+/* Utility for hiding elements, often used by frameworks like Tailwind */
+/* Ensure this is strong enough to always hide what has 'hidden' class */
+.hidden {
+    display: none !important;
+}
+
+/* Splash Screen styling */
+#splash-screen {
+    position: fixed; /* Fixed position to cover the entire viewport */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex; /* Flexbox for centering content */
+    align-items: center;
+    justify-content: center;
+    background-color: #f9fafb; /* Light gray background */
+    z-index: 1000; /* Ensure it's on top of everything */
+    /* Smooth transition for fading out the splash screen */
+    transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+}
+
+/* Container for the logo animation, helps with initial centering */
+#logo-animation-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+/* Styling for the large logo during the splash screen */
+#logo-big-splash { /* Changed ID to differentiate from header logo */
+    width: 300px;
+    height: 300px;
+    object-fit: contain; /* Ensure image fits within bounds */
+    border-radius: 9999px; /* Tailwind's rounded-full */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Tailwind's shadow-lg */
+    /* Initial position: centered using absolute positioning and transform */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* Transition properties for the animation */
+    transition: all 1.5s ease-in-out;
+    /* Ensure it starts visible */
+    opacity: 1;
+}
+
+/* Class added by JavaScript to trigger the logo animation */
+/* This now makes the logo disappear completely after animation */
+.logo-animate #logo-big-splash {
+    width: 40px; /* Shrink to small size */
+    height: 40px;
+    /* Move towards top-left, but also completely fade out */
+    top: 16px;
+    left: 16px;
+    transform: translate(0, 0); /* Reset translation for final absolute position */
+    box-shadow: none; /* Remove shadow during animation */
+    opacity: 0; /* Make it completely disappear */
+    visibility: hidden; /* Ensure it's not clickable/visible */
+    pointer-events: none; /* Prevent any interaction */
+}
+
+/* Class to completely hide the splash screen after animation */
+.splash-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none; /* Prevents interaction with hidden elements */
+    z-index: -1; /* Ensure it doesn't block clicks on main content */
+}
+
+/* Main content container styling */
+#main-content {
+    /* Removed min-height: 100vh; to allow natural scrolling of the body */
+    background-color: #f3f4f6; /* Light gray background */
+    /* Add padding-top to account for fixed header, handled in HTML pt-24 now */
+}
+
+/* Styles for the modal overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it's on top of everything */
+}
+
+/* Modal content basic styling */
+.modal-content {
+    overflow-y: auto;
+    max-height: 90vh;
+    background-color: beige;
+    /* max-h-[90vh] and overflow-y-auto are important for scrollable modal content */
+    /* Ensure there's a background color so it's not transparent */
+}
+
+
+/* Updated styles for the fixed header */
+.header {
+    min-height: 4rem; /* Ensure a minimum height for the header */
+}
+
+/* Specific styles for responsive navigation for smaller screens */
+@media (max-width: 640px) {
+    .header {
+        flex-direction: column; /* Stack items vertically */
+        align-items: center; /* Center items horizontally when stacked */
+        padding-top: 1rem; /* 16px */
+        padding-bottom: 1rem; /* 16px */
+    }
+    .header #header-left-section,
+    .header > div:last-child {
+        width: 100%; /* Ensure these sections take full width on small screens */
+        text-align: center;
+        margin-bottom: 0.5rem; /* Add some vertical space between stacked items */
+    }
+    .header nav {
+        flex-grow: 0; /* Prevent nav from growing excessively, letting it take natural width */
+        width: auto; /* Allow navigation to take natural width based on content */
+        margin-top: 0.5rem; /* Space above nav when stacked */
+        margin-bottom: 0.5rem; /* Space below nav when stacked */
+        display: flex; /* Explicitly declare flex for its children (ul) */
+        justify-content: center; /* Center the ul horizontally */
+    }
+    .header nav ul {
+        flex-wrap: wrap; /* Allow navigation links to wrap */
+        justify-content: center; /* Center wrapped links */
+        margin: 0.2rem 0; /* Adjust vertical margin for wrapped links */
+        width: 100%; /* Ensure the ul inside nav also takes full width */
+    }
+    .header nav ul li {
+        margin: 0.3rem 0.6rem; /* Adjust margin for individual links */
+    }
+}
+
+
