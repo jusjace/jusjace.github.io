@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dear Mierre's Menu</title>
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Tailwind config remains inline as it's a configuration, not general script
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#6B46C1', // Example primary color, adjust as needed
+                        secondary: '#EDF2F7', // Example secondary color
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts - Inter for clean typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+       /* Custom styles for better aesthetics for the cookie modal */
+        .button-quantity {
+            transition: all 0.2s ease-in-out;
+            border: 1px solid #d1d5db; /* Light gray border */
+        }
+        .button-quantity:hover {
+            background-color: #f3f4f6; /* Light gray on hover */
+            transform: translateY(-2px); /* Slight lift effect */
+        }
+        .button-quantity.selected {
+            background-color: #4f46e5; /* Indigo for selected */
+            color: white;
+            border-color: #4f46e5;
+        }
+        /* Removed .price-display font-size here to use Tailwind classes directly */
+        .price-display {
+            font-weight: 700; /* Bold price */
+            color: #1f2937; /* Dark gray color */
+        }
+        /* Specific styles for cake size buttons */
+        .cake-size-button {
+            transition: all 0.2s ease-in-out;
+            border: 1px solid #d1d5db;
+        }
+        .cake-size-button:hover {
+            background-color: #f3f4f6;
+            transform: translateY(-2px);
+        }
+        .cake-size-button.selected {
+            background-color: #6B46C1; /* Primary purple for selected */
+            color: white;
+            border-color: #6B46C1;
+        }
+        /* Styles for availability status */
+        .availability-status {
+            font-size: 0.75rem; /* text-xs */
+            font-weight: 500; /* font-medium */
+            padding: 0.25rem 0.5rem; /* px-2 py-1 */
+            border-radius: 9999px; /* rounded-full */
+            margin-left: 0.5rem; /* ml-2 */
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+        .availability-status.available {
+            background-color: #d1fae5; /* green-100 */
+            color: #065f46; /* green-800 */
+        }
+        .availability-status.not-available {
+            background-color: #fee2e2; /* red-100 */
+            color: #991b1b; /* red-800 */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Content -->
+    <div id="main-content">
+        <!-- Fixed Header Bar -->
+        <header class="header fixed top-0 left-0 right-0 bg-white p-4 shadow-md z-50 flex flex-col sm:flex-row items-center justify-between rounded-b-xl max-w-full">
+            <!-- Left section: Permanent Small Logo and Business Name -->
+            <div id="header-left-section" class="flex items-center space-x-4 mb-2 sm:mb-0">
+                <img id="logo-small-header" src="images/logo.png" alt="Cafe Logo" class="w-10 h-10 rounded-full">
+                <span id="business-name" class="text-gray-800 font-semibold text-base sm:text-lg">Dear Mierre</span>
+            </div>
+            <!-- Middle section: Navigation links -->
+            <nav class="flex-grow flex justify-center w-full sm:w-auto">
+                <ul class="flex space-x-4 sm:space-x-6 text-gray-700 font-medium text-sm sm:text-base">
+                    <li><a href="index.html" class="hover:text-purple-600 transition duration-300">Home</a></li>
+                    <li><a href="categories.html" class="hover:text-purple-600 transition duration-300 border-b-2 border-purple-600 pb-1">Menu</a></li><!-- Highlighted -->
+                    <li><a href="AboutUs.html" class="hover:text-purple-600 transition duration-300">About Us</a></li>
+                </ul>
+            </nav>
+            
+        </header>
+<br>
+<br>
+<br>
+
+        <!-- Main content area: Categories Page with Product Filtering and Groups -->
+        <main class="p-8 md:p-12 lg:p-16 pt-20">
+            <div class="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
+                <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 flex-grow">All Categories</h1>
+                
+                <!-- Filtering Section -->
+                <div class="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
+                    <!-- Category Filter -->
+                    <div class="relative w-full sm:w-auto">
+                        <select id="category-filter" class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded-lg shadow leading-tight focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent cursor-pointer">
+                            <option value="all">All Categories</option>
+                            <option value="cakes">Cakes</option>
+                            <option value="pastries">Pastries</option>
+                            <option value="iced-coffee">Iced Coffee</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 6.464 7.293 5.05 8.707 9.293 12.95z"/></svg>
+                        </div>
+                    </div>
+
+                    <!-- Price Filter -->
+                    <div class="relative w-full sm:w-auto">
+                        <select id="price-filter" class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded-lg shadow leading-tight focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent cursor-pointer">
+                            <option value="all">All Prices</option>
+                            <option value="0-100">₱0 - ₱100</option>
+                            <option value="101-200">₱101 - ₱200</option>
+                            <option value="201-500">₱201 - ₱500</option>
+                            <option value="501-above">₱501+</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 6.464 7.293 5.05 8.707 9.293 12.95z"/></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cakes Section -->
+            <section id="cakes-section" class="product-category-section mb-12">
+                <div class="flex justify-between items-baseline mb-6">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-gray-800">Cakes</h2>
+                    <a href="#" id="show-all-cakes-link" class="text-purple-600 hover:text-purple-800 font-medium transition duration-300 text-base sm:text-lg">Show All Cakes</a>
+                </div>
+                <div id="cakes-product-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                    <!-- Cake Product Card 1 -->
+                    <div class="product-card bg-white rounded-xl shadow-lg p-4 flex flex-col items-center text-center transition-all duration-300 hover:scale-105 hover:shadow-xl cursor-pointer"
+                         data-category="cakes"
+                         data-name="Moist Chocolate Cake"
+                         data-image="https://placehold.co/150x150/d2e3f8/2e5c8a?text=Chocolate+Cake"
+                         data-description="Our Chocolate Moist cake is a decadent masterpiece with a velvety chocolate ganache."
+                         data-bakers-note="For single-tier cakes, each cake consists of four generously portioned layers. For two-tier cakes, the size and number of layers per tier can be customized based on customer preference. Typical two-tier configurations include a larger base tier (e.g., 8-inch, 3 layers) and a smaller top tier (e.g., 6-inch, 3 layers), but variations are available upon request to accommodate specific design or serving requirements."
+                         data-prices='{"Bento": 250.00, "6x4": 850.00, "8x4": 1200.00, "4x4 & 6x4": 1800.00, "5x4 & 8x4": 2500.00, "6cc":250.00, "12cc": 450.00, "6x4 w 6cc": 1100, "6x4 w 12cc": 1300, "8x4 w 6cc": 1450, "8x4 w 12cc": 1650, "4x4 & 6x4 w 6cc": 2100, "4x4 & 6x4 w 12cc": 2400, "5x4 & 8x4 w 6cc": 2750, "5x4 & 8x4 w 12cc": 2900}'
+                         data-price="600.00"> <!-- Added data-price for filtering -->
+                        <img src="https://placehold.co/150x150/d2e3f8/2e5c8a?text=Chocolate+Cake" alt="Chocolate Cake" class="w-32 h-32 rounded-full object-cover mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Moist Chocolate Cake</h3>
+                        <p class="text-sm text-gray-500 mb-2">Cake</p>
+                        <p class="text-xl font-bold text-purple-700 mb-1">₱850.00</p>
+                        <p class="text-xs text-gray-400 mb-3">(each)</p>
+                        <div class="flex items-center justify-between w-full text-sm mt-auto">
+                            <span class="text-gray-600">50 pc/s</span>
+                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">AVAILABLE</span>
+                        </div>
+                    </div>
+
+                    
+
+                    <!-- Cake Product Card 2 -->
+                    <div class="product-card bg-white rounded-xl shadow-lg p-4 flex flex-col items-center text-center transition-all duration-300 hover:scale-105 hover:shadow-xl cursor-pointer"
+                         data-category="cakes"
+                         data-name="Vanilla Chiffon Cake"
+                         data-image="https://placehold.co/150x150/f7e0c4/a05d21?text=Vanilla+Cake"
+                         data-description="Indulge in the classic elegance of our Vanilla Bliss cake. This light and airy vanilla sponge is layered with a delicate, creamy vanilla bean buttercream, offering a perfectly sweet and comforting flavor. It's a timeless choice for any occasion, providing a subtle yet rich experience."
+                         data-bakers-note="For single-tier cakes, each cake consists of four generously portioned layers. For two-tier cakes, the size and number of layers per tier can be customized based on customer preference. Typical two-tier configurations include a larger base tier (e.g., 8-inch, 3 layers) and a smaller top tier (e.g., 6-inch, 3 layers), but variations are available upon request to accommodate specific design or serving requirements."
+                         data-prices='{"Bento": 550.00, "6x4": 780.00, "8x4": 1100.00, "4x4 & 6x4": 1700.00, "5x4 & 8x4": 2300.00}'
+                         data-price="550.00"> <!-- Added data-price for filtering -->
+                        <img src="https://placehold.co/150x150/f7e0c4/a05d21?text=Vanilla+Cake" alt="Vanilla Cake" class="w-32 h-32 rounded-full object-cover mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Vanilla Chiffon Cake</h3>
+                        <p class="text-sm text-gray-500 mb-2">Cake</p>
+                        <p class="text-xl font-bold text-purple-700 mb-1">₱780.00</p>
+                        <p class="text-xs text-gray-400 mb-3">(each)</p>
+                        <div class="flex items-center justify-between w-full text-sm mt-auto">
+                            <span class="text-gray-600">30 pc/s</span>
+                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">AVAILABLE</span>
+                        </div>
+                    </div>
+                    <!-- Cake Product Card 3 -->
+                    <div class="product-card bg-white rounded-xl shadow-lg p-4 flex flex-col items-center text-center transition-all duration-300 hover:scale-105 hover:shadow-xl cursor-pointer"
+                         data-category="cakes"
+                         data-name="Ube Chiffon Cake"
+                         data-image="https://placehold.co/150x150/e0c4f7/6a21a0?text=Red+Velvet"
+                         data-description="Our Red Velvet Classic cake boasts a rich, moist crimson sponge with a hint of cocoa, generously layered with a tangy and smooth cream cheese frosting. This iconic cake offers a perfect balance of flavors and a stunning visual appeal."
+                         data-bakers-note="For single-tier cakes, each cake consists of four generously portioned layers. For two-tier cakes, the size and number of layers per tier can be customized based on customer preference. Typical two-tier configurations include a larger base tier (e.g., 8-inch, 3 layers) and a smaller top tier (e.g., 6-inch, 3 layers), but variations are available upon request to accommodate specific design or serving requirements."
+                         data-prices='{"Bento": 650.00, "6x4": 920.00, "8x4": 1300.00, "4x4 & 6x4": 1900.00, "5x4 & 8x4": 2600.00}'
+                         data-price="650.00"> <!-- Added data-price for filtering -->
+                        <img src="https://placehold.co/150x150/e0c4f7/6a21a0?text=Red+Velvet" alt="Red Velvet Cake" class="w-32 h-32 rounded-full object-cover mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Ube Chiffon Cake</h3>
+                        <p class="text-sm text-gray-500 mb-2">Cake</p>
+                        <p class="text-xl font-bold text-purple-700 mb-1">₱920.00</p>
+                        <p class="text-xs text-gray-400 mb-3">(each)</p>
+                        <div class="flex items-center justify-between w-full text-sm mt-auto">
+                            <span class="text-gray-600">25 pc/s</span>
+                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">AVAILABLE</span>
+                        </div>
+                    </div>
+                    <!-- Burnt Basque Cheesecake Product Card (Moved to Cakes) -->
+                    <div class="product-card bg-white rounded-xl shadow-lg p-4 flex flex-col items-center text-center transition-all duration-300 hover:scale-105 hover:shadow-xl cursor-pointer"
+                         data-category="cakes"
+                         data-name="Burnt Basque Cheesecake"
+                         data-image="https://placehold.co/150x150/e0c4f7/6a21a0?text=Basque+Cheesecake"
+                         data-description="A creamy and rich cheesecake with a beautifully caramelized top, a rustic Spanish delight."
+                         data-modal-type="basque-cheesecake"
+                         data-prices='{"p/slice": 180.00, "4s cupcake": 700.00, "12s cupcake": 2000.00, "bento": 900.00, "6inch": 1500.00}'
+                         data-availability='{"p/slice": true, "4s cupcake": true, "12s cupcake": false, "bento": true, "6inch": false}'
+                         data-price="180.00"> <!-- Added data-price for filtering -->
+                        <img src="https://placehold.co/150x150/e0c4f7/6a21a0?text=Basque+Cheesecake" alt="Burnt Basque Cheesecake" class="w-32 h-32 rounded-full object-cover mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Burnt Basque Cheesecake</h3>
+                        <p class="text-sm text-gray-500 mb-2">Cake</p>
+                        <p class="text-xl font-bold text-purple-700 mb-1">₱180.00</p>
+                        <p class="text-xs text-gray-400 mb-3">(p/slice)</p>
+                        <div class="flex items-center justify-between w-full text-sm mt-auto">
+                            <span class="text-gray-600">Available</span>
+                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">AVAILABLE</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pastries Section -->
+            <section id="pastries-section" class="product-category-section mb-12">
+                <div class="flex justify-between items-baseline mb-6">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-gray-800">Pastries</h2>
+                    <a href="#" id="show-all-pastries-link" class="text-purple-600 hover:text-purple-800 font-medium transition duration-300 text-base sm:text-lg">Show All Pastries</a>
+                </div>
+                <div id="pastries-product-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                    <!-- Pastry Product Card 1: Chocolate Cookie -->
+                    <div class="product-card bg-white rounded-xl shadow-lg p-4 flex flex-col items-center text-center transition-all duration-300 hover:scale-105 hover:shadow-xl cursor-pointer"
+                         data-category="pastries"
+                         data-name="Chocolate Cookie"
+                         data-image="https://placehold.co/150x150/f0b4d4/c23a7e?text=Choco+Cookie"
+                         data-description="A classic chocolate chip cookie, soft and chewy with rich chocolate chunks."
+                         data-prices='{"1": 120.00, "4": 450.00, "6": 650.00, "12": 1200.00}'
+                         data-price="120.00"> <!-- Added data-price for filtering -->
+                        <img src="https://placehold.co/150x150/f0b4d4/c23a7e?text=Choco+Cookie" alt="Chocolate Cookie" class="w-32 h-32 rounded-full object-cover mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Chocolate Cookie</h3>
+                        <p class="text-sm text-gray-500 mb-2">Pastry</p>
+                        <p class="text-xl font-bold text-purple-700 mb-1">₱120.00</p>
+                        <p class="text-xs text-gray-400 mb-3">(each)</p>
+                        <div class="flex items-center justify-between w-full text-sm mt-auto">
+                            <span class="text-gray-600">150 pc/s</span>
+                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">AVAILABLE</span>
+                        </div>
+                    </div>
+                    <!-- Pastry Product Card 2: Double Choco Cookie -->
+                    <div class="product-card bg-white rounded-xl shadow-lg p-4 flex flex-col items-center text-center transition-all duration-300 hover:scale-105 hover:shadow-xl cursor-pointer"
+                         data-category="pastries"
+                         data-name="Double Choco Cookie"
+                         data-image="https://placehold.co/150x150/d4f0b4/3a8c21?text=Double+Choco"
+                         data-description="For the true chocolate lover, a rich double chocolate cookie with white and dark chocolate chips."
+                         data-prices='{"1": 145.00, "4": 550.00, "6": 800.00, "12": 1500.00}'
+                         data-price="145.00"> <!-- Added data-price for filtering -->
+                        <img src="https://placehold.co/150x150/d4f0b4/3a8c21?text=Double+Choco" alt="Double Choco Cookie" class="w-32 h-32 rounded-full object-cover mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Double Choco Cookie</h3>
+                        <p class="text-sm text-gray-500 mb-2">Pastry</p>
+                        <p class="text-xl font-bold text-purple-700 mb-1">₱145.00</p>
+                        <p class="text-xs text-gray-400 mb-3">(each)</p>
+                        <div class="flex items-center justify-between w-full text-sm mt-auto">
+                            <span class="text-gray-600">80 pc/s</span>
+                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">AVAILABLE</span>
+                        </div>
+                    </div>
+                    <!-- Pastry Product Card 3: Red Velvet Cookie -->
+                    <div class="product-card bg-white rounded-xl shadow-lg p-4 flex flex-col items-center text-center transition-all duration-300 hover:scale-105 hover:shadow-xl cursor-pointer"
+                         data-category="pastries"
+                         data-name="Red Velvet Cookie"
+                         data-image="https://placehold.co/150x150/d2e3f8/2e5c8a?text=Red+Velvet"
+                         data-description="A soft red velvet cookie with a hint of cocoa and creamy white chocolate chips."
+                         data-prices='{"1": 95.00, "4": 360.00, "6": 520.00, "12": 1000.00}'
+                         data-price="95.00"> <!-- Added data-price for filtering -->
+                        <img src="https://placehold.co/150x150/d2e3f8/2e5c8a?text=Red+Velvet" alt="Red Velvet Cookie" class="w-32 h-32 rounded-full object-cover mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Red Velvet Cookie</h3>
+                        <p class="text-sm text-gray-500 mb-2">Pastry</p>
+                        <p class="text-xl font-bold text-purple-700 mb-1">₱95.00</p>
+                        <p class="text-xs text-gray-400 mb-3">(each)</p>
+                        <div class="flex items-center justify-between w-full text-sm mt-auto">
+                            <span class="text-gray-600">120 pc/s</span>
+                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">AVAILABLE</span>
+                        </div>
+                    </div>
+
+                    <!-- Pastry Product Card 4: Monster Cookie -->
+                    <div class="product-card bg-white rounded-xl shadow-lg p-4 flex flex-col items-center text-center transition-all duration-300 hover:scale-105 hover:shadow-xl cursor-pointer"
+                         data-category="pastries"
+                         data-name="Monster Cookie"
+                         data-image="https://placehold.co/150x150/e0c4f7/6a21a0?text=Monster"
+                         data-description="A delightful monster cookie packed with oats, chocolate chips, and M&Ms."
+                         data-prices='{"1": 95.00, "4": 360.00, "6": 520.00, "12": 1000.00}'
+                         data-price="95.00"> <!-- Added data-price for filtering -->
+                        <img src="https://placehold.co/150x150/e0c4f7/6a21a0?text=Monster" alt="Monster Cookie" class="w-32 h-32 rounded-full object-cover mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Monster Cookie</h3>
+                        <p class="text-sm text-gray-500 mb-2">Pastry</p>
+                        <p class="text-xl font-bold text-purple-700 mb-1">₱95.00</p>
+                        <p class="text-xs text-gray-400 mb-3">(each)</p>
+                        <div class="flex items-center justify-between w-full text-sm mt-auto">
+                            <span class="text-gray-600">120 pc/s</span>
+                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">AVAILABLE</span>
+                        </div>
+                    </div>
+
+                    <!-- Pastry Product Card 5: S'mores Cookie - HIDDEN INITIALLY -->
+                    <div class="product-card bg-white rounded-xl shadow-lg p-4 flex flex-col items-center text-center transition-all duration-300 hover:scale-105 hover:shadow-xl cursor-pointer hidden-initial"
+                         data-category="pastries"
+                         data-name="S'mores Cookie"
+                         data-image="https://placehold.co/150x150/f7e0c4/a05d21?text=Smores"
+                         data-description="A gooey s'mores cookie with toasted marshmallows, chocolate, and graham cracker bits."
+                         data-prices='{"1": 95.00, "4": 360.00, "6": 520.00, "12": 1000.00}'
+                         data-price="95.00"> <!-- Added data-price for filtering -->
+                        <img src="https://placehold.co/150x150/f7e0c4/a05d21?text=Smores" alt="S'mores Cookie" class="w-32 h-32 rounded-full object-cover mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">S'mores Cookie</h3>
+                        <p class="text-sm text-gray-500 mb-2">Pastry</p>
+                        <p class="text-xl font-bold text-purple-700 mb-1">₱95.00</p>
+                        <p class="text-xs text-gray-400 mb-3">(each)</p>
+                        <div class="flex items-center justify-between w-full text-sm mt-auto">
+                            <span class="text-gray-600">120 pc/s</span>
+                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">AVAILABLE</span>
+                        </div>
+                    </div>
+
+                    <!-- Pastry Product Card 6: Biscoff Cookie - HIDDEN INITIALLY -->
+                    <div class="product-card bg-white rounded-xl shadow-lg p-4 flex flex-col items-center text-center transition-all duration-300 hover:scale-105 hover:shadow-xl cursor-pointer hidden-initial"
+                         data-category="pastries"
+                         data-name="Biscoff Cookie"
+                         data-image="https://placehold.co/150x150/d4f0b4/3a8c21?text=Biscoff"
+                         data-description="A delightful cookie infused with the unique caramelized flavor of Biscoff."
+                         data-prices='{"1": 95.00, "4": 360.00, "6": 520.00, "12": 1000.00}'
+                         data-price="95.00"> <!-- Added data-price for filtering -->
+                        <img src="https://placehold.co/150x150/d4f0b4/3a8c21?text=Biscoff" alt="Biscoff Cookie" class="w-32 h-32 rounded-full object-cover mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Biscoff Cookie</h3>
+                        <p class="text-sm text-gray-500 mb-2">Pastry</p>
+                        <p class="text-xl font-bold text-purple-700 mb-1">₱95.00</p>
+                        <p class="text-xs text-gray-400 mb-3">(each)</p>
+                        <div class="flex items-center justify-between w-full text-sm mt-auto">
+                            <span class="text-gray-600">120 pc/s</span>
+                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">AVAILABLE</span>
+                        </div>
+                    </div>
+
+                    <!-- Pastry Product Card 7: Burnt Basque Cheesecake (moved to pastries for demonstration) - HIDDEN INITIALLY -->
+                    <div class="product-card bg-white rounded-xl shadow-lg p-4 flex flex-col items-center text-center transition-all duration-300 hover:scale-105 hover:shadow-xl cursor-pointer hidden-initial"
+                         data-category="pastries"
+                         data-name="Burnt Basque Cheesecake"
+                         data-image="https://placehold.co/150x150/e0c4f7/6a21a0?text=Basque+Cheesecake"
+                         data-description="A creamy and rich cheesecake with a beautifully caramelized top, a rustic Spanish delight."
+                         data-modal-type="basque-cheesecake"
+                         data-prices='{"p/slice": 180.00, "4s cupcake": 700.00, "12s cupcake": 2000.00, "bento": 900.00, "6inch": 1500.00}'
+                         data-availability='{"p/slice": true, "4s cupcake": true, "12s cupcake": false, "bento": true, "6inch": false}'
+                         data-price="180.00"> <!-- Added data-price for filtering -->
+                        <img src="https://placehold.co/150x150/e0c4f7/6a21a0?text=Basque+Cheesecake" alt="Burnt Basque Cheesecake" class="w-32 h-32 rounded-full object-cover mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Burnt Basque Cheesecake</h3>
+                        <p class="text-sm text-gray-500 mb-2">Pastry</p>
+                        <p class="text-xl font-bold text-purple-700 mb-1">₱180.00</p>
+                        <p class="text-xs text-gray-400 mb-3">(p/slice)</p>
+                        <div class="flex items-center justify-between w-full text-sm mt-auto">
+                            <span class="text-gray-600">Available</span>
+                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">AVAILABLE</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Iced Coffee Section -->
+            <section id="iced-coffee-section" class="product-category-section mb-12">
+                <div class="flex justify-between items-baseline mb-6">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-gray-800">Iced Coffee</h2>
+                    <a href="#" id="show-all-iced-coffee-link" class="text-purple-600 hover:text-purple-800 font-medium transition duration-300 text-base sm:text-lg">Show All Iced Coffee</a>
+                </div>
+                <div id="iced-coffee-product-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                    <!-- Iced Coffee Product Card 1 -->
+                    <div class="product-card bg-white rounded-xl shadow-lg p-4 flex flex-col items-center text-center transition-all duration-300 hover:scale-105 hover:shadow-xl cursor-pointer"
+                         data-category="iced-coffee"
+                         data-price="180"
+                         data-name="Iced Latte"
+                         data-image="https://placehold.co/150x150/f0d4b4/a05d21?text=Iced+Latte"
+                         data-description="A refreshing iced latte, perfect for a pick-me-up.">
+                        <img src="https://placehold.co/150x150/f0d4b4/a05d21?text=Iced+Latte" alt="Iced Latte" class="w-32 h-32 rounded-full object-cover mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Iced Latte</h3>
+                        <p class="text-sm text-gray-500 mb-2">Iced Coffee</p>
+                        <p class="text-xl font-bold text-purple-700 mb-1">₱180.00</p>
+                        <p class="text-xs text-gray-400 mb-3">(each)</p>
+                        <div class="flex items-center justify-between w-full text-sm mt-auto">
+                            <span class="text-gray-600">Unlimited</span>
+                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">AVAILABLE</span>
+                        </div>
+                    </div>
+                    <!-- Iced Coffee Product Card 2 -->
+                    <div class="product-card bg-white rounded-xl shadow-lg p-4 flex flex-col items-center text-center transition-all duration-300 hover:scale-105 hover:shadow-xl cursor-pointer"
+                         data-category="iced-coffee"
+                         data-price="200"
+                         data-name="Iced Mocha"
+                         data-image="https://placehold.co/150x150/e0c4f7/6a21a0?text=Iced+Mocha"
+                         data-description="A delightful blend of coffee and chocolate, served over ice.">
+                        <img src="https://placehold.co/150x150/e0c4f7/6a21a0?text=Iced+Mocha" alt="Iced Mocha" class="w-32 h-32 rounded-full object-cover mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Iced Mocha</h3>
+                        <p class="text-sm text-gray-500 mb-2">Iced Coffee</p>
+                        <p class="text-xl font-bold text-purple-700 mb-1">₱200.00</p>
+                        <p class="text-xs text-gray-400 mb-3">(each)</p>
+                        <div class="flex items-center justify-between w-full text-sm mt-auto">
+                            <span class="text-gray-600">Unlimited</span>
+                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">AVAILABLE</span>
+                        </div>
+                    </div>
+                    <!-- Iced Coffee Product Card 3 -->
+                    <div class="product-card bg-white rounded-xl shadow-lg p-4 flex flex-col items-center text-center transition-all duration-300 hover:scale-105 hover:shadow-xl cursor-pointer"
+                         data-category="iced-coffee"
+                         data-price="220"
+                         data-name="Iced Caramel Macchiato"
+                         data-image="https://placehold.co/150x150/d4f0b4/3a8c21?text=Caramel"
+                         data-description="Espresso with steamed milk, vanilla syrup, and a caramel drizzle, served cold.">
+                        <img src="https://placehold.co/150x150/d4f0b4/3a8c21?text=Caramel" alt="Iced Caramel Macchiato" class="w-32 h-32 rounded-full object-cover mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Iced Caramel Macchiato</h3>
+                        <p class="text-sm text-gray-500 mb-2">Iced Coffee</p>
+                        <p class="text-xl font-bold text-purple-700 mb-1">₱220.00</p>
+                        <p class="text-xs text-gray-400 mb-3">(each)</p>
+                        <div class="flex items-center justify-between w-full text-sm mt-auto">
+                            <span class="text-gray-600">Unlimited</span>
+                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">AVAILABLE</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Example: "Dessert" category if you want to include it here too, with filtering. -->
+            <section id="dessert-section" class="product-category-section mb-12 hidden"> <!-- Hidden by default for now -->
+                <div class="flex justify-between items-baseline mb-6">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-gray-800">Dessert</h2>
+                    <a href="#" class="text-purple-600 hover:text-purple-800 font-medium transition duration-300 text-base sm:text-lg">Show All Dessert</a>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                    <!-- Dessert Product Card (e.g., Macarons) -->
+                    <div class="product-card bg-white rounded-xl shadow-lg p-4 flex flex-col items-center text-center transition-all duration-300 hover:scale-105 hover:shadow-xl cursor-pointer"
+                         data-category="dessert"
+                         data-price="294"
+                         data-name="Ruby Burt Macarons"
+                         data-image="https://placehold.co/150x150/f0b4d4/c23a7e?text=Macarons"
+                         data-description="Delicate French macarons with a vibrant ruby flavor.">
+                        <img src="https://placehold.co/150x150/f0b4d4/c23a7e?text=Macarons" alt="Ruby Burt Macarons" class="w-32 h-32 rounded-full object-cover mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Ruby Burt Macarons</h3>
+                        <p class="text-sm text-gray-500 mb-2">Dessert</p>
+                        <p class="text-xl font-bold text-purple-700 mb-1">₱294.00</p>
+                        <p class="text-xs text-gray-400 mb-3">(each)</p>
+                        <div class="flex items-center justify-between w-full text-sm mt-auto">
+                            <span class="text-gray-600">645 pc/s</span>
+                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">AVAILABLE</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Cake Order Modal (Standard Cakes) -->
+    <div id="cake-order-modal" class="modal-overlay hidden">
+        <div class="modal-content relative bg-white rounded-xl shadow-2xl p-6 sm:p-8 w-11/12 max-w-4xl max-h-[90vh] overflow-y-auto">
+            <!-- Close button -->
+            <button id="modal-close-button-cake" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <div class="modal-header text-center mb-6">
+                <h2 class="text-3xl font-bold text-gray-800">Starting Prices</h2>
+                <p class="text-lg text-gray-500">(Cakes only)</p>
+            </div>
+
+            <div class="modal-body grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Left Column: Product Image, Details, Description, and Baker's Note -->
+                <div class="flex flex-col items-center lg:items-start lg:col-span-1 space-y-4">
+                    <!-- Product Image & Basic Details -->
+                    <div class="flex flex-col items-center w-full">
+                        <img id="modal-product-image-cake" src="" alt="Product Image" class="w-48 h-48 sm:w-64 sm:h-64 rounded-full object-cover shadow-md mb-4">
+                        <h3 id="modal-product-name-cake" class="text-2xl font-bold text-gray-800 mb-1 text-center"></h3>
+                        <p id="modal-product-price-cake" class="text-5xl font-extrabold text-purple-700 text-center">₱0.00</p>
+                    </div>
+
+                    <!-- Product Description -->
+                    <div class="bg-gray-50 p-4 rounded-lg shadow-inner w-full">
+                        <h4 class="text-lg font-semibold text-gray-700 mb-3">Product Description</h4>
+                        <p id="modal-product-description-cake" class="text-sm text-gray-600 leading-relaxed">
+                            <!-- This will be populated by JavaScript -->
+                        </p>
+                    </div>
+
+                    <!-- Baker's Note -->
+                    <div class="bg-gray-50 p-4 rounded-lg shadow-inner w-full">
+                        <h4 class="text-lg font-semibold text-gray-700 mb-3">Baker's Note</h4>
+                        <p id="modal-bakers-note-cake" class="text-sm text-gray-600 leading-relaxed">
+                            <!-- This will be populated by JavaScript -->
+                        </p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg shadow-inner">
+                        <h4 class="text-lg font-semibold text-gray-700 mb-3">Customization Options</h4>
+                        <p class="text-sm text-gray-600">
+                            You can add specific customization options for cakes, e.g., size, theme, message, filling, toppers. 
+                            The price displayed is for the base cake, and any selected additions such as the theme, fillings, or toppers
+                             will adjust the final price accordingly. We will confirm the total cost with you based on your specific choices.
+                        </p>
+                    </div>
+
+                </div>
+                
+                
+                <!-- Right Column: Customization Options and Size Selection -->
+                <div class="lg:col-span-1 space-y-6">
+                    
+
+                    <!-- Cake Size Selection -->
+                    <div class="bg-gray-50 p-4 rounded-lg shadow-inner w-full">
+                        <h4 class="text-lg font-semibold text-gray-700 mb-3">Sizes:</h4>
+                        <p class="text-base font-semibold text-gray-800 mb-2">1 Tier Cakes:</p>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
+                            <button class="cake-size-button px-4 py-2 rounded-lg text-gray-700 font-medium hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 border border-gray-300 m-1" data-size="Bento">Bento</button>
+                            <button class="cake-size-button px-4 py-2 rounded-lg text-gray-700 font-medium hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 border border-gray-300 m-1" data-size="6x4">6x4</button>
+                            <button class="cake-size-button px-4 py-2 rounded-lg text-gray-700 font-medium hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 border border-gray-300 m-1" data-size="8x4">8x4</button>
+                        </div>
+
+                        <p class="text-base font-semibold text-gray-800 mb-2">2 Tier Cakes:</p>
+                        <div class="grid grid-cols-2 sm:grid-cols-2 gap-3 mb-4">
+                            <button class="cake-size-button px-4 py-2 rounded-lg text-gray-700 font-medium hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 border border-gray-300 m-1" data-size="4x4 & 6x4">4x4 & 6x4</button>
+                            <button class="cake-size-button px-4 py-2 rounded-lg text-gray-700 font-medium hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 border border-gray-300 m-1" data-size="5x4 & 8x4">5x4 & 8x4</button>
+                        </div>
+
+                        <p class="text-base font-semibold text-gray-800 mb-2">Cupcakes:</p>
+                        <div class="grid grid-cols-2 sm:grid-cols-2 gap-3 mb-4">
+                            <button class="cake-size-button px-4 py-2 rounded-lg text-gray-700 font-medium hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 border border-gray-300 m-1" data-size="6cc">6's cupcake</button>
+                            <button class="cake-size-button px-4 py-2 rounded-lg text-gray-700 font-medium hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 border border-gray-300 m-1" data-size="12cc">12's Cupcake</button>
+                        </div>
+
+                        <p class="text-base font-semibold text-gray-800 mb-2">Combo Cakes:</p>
+                        <div class="grid grid-cols-2 sm:grid-cols-2 gap-3">
+                            <button class="cake-size-button px-4 py-2 rounded-lg text-gray-700 font-medium hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 border border-gray-300 m-1" data-size="6x4 w 6cc">6x4 w 6's cupcake</button>
+                            <button class="cake-size-button px-4 py-2 rounded-lg text-gray-700 font-medium hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 border border-gray-300 m-1" data-size="6x4 w 12cc">6x4 w 12's Cupcake</button>
+                            <button class="cake-size-button px-4 py-2 rounded-lg text-gray-700 font-medium hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 border border-gray-300 m-1" data-size="8x4 w 6cc">8x4 w 6's cupcake</button>
+                            <button class="cake-size-button px-4 py-2 rounded-lg text-gray-700 font-medium hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 border border-gray-300 m-1" data-size="8x4 w 12cc">8x4 w 12's Cupcake</button>
+                            
+                            <button class="cake-size-button px-4 py-2 rounded-lg text-gray-700 font-medium hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 border border-gray-300 m-1" data-size="4x4 & 6x4 w 6cc">4x4 & 6x4 w 6's cupcake</button>
+                            <button class="cake-size-button px-4 py-2 rounded-lg text-gray-700 font-medium hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 border border-gray-300 m-1" data-size="4x4 & 6x4 w 12cc">4x4 & 6x4 w 12's Cupcake</button>
+                            <button class="cake-size-button px-4 py-2 rounded-lg text-gray-700 font-medium hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 border border-gray-300 m-1" data-size="5x4 & 8x4 w 6cc">5x4 & 8x4 w 6's cupcake</button>
+                            <button class="cake-size-button px-4 py-2 rounded-lg text-gray-700 font-medium hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 border border-gray-300 m-1" data-size="5x4 & 8x4 w 12cc">5x4 & 8x4 w 12's Cupcake</button>
+                        </div>
+                    </div>
+
+                    <!-- Price Placeholder for Cake Sizes -->
+                    <div class="mb-6 p-4 border border-gray-300 rounded-lg bg-gray-50">
+                        <label class="block text-gray-800 text-lg font-semibold mb-2">Selected Size Price:</label>
+                        <div class="price-display text-purple-700 text-5xl">
+                            ₱<span id="cake-size-price-placeholder">0.00</span>
+                        </div>
+                    </div>
+
+                    <!-- Button to Facebook Page for Custom Orders -->
+                    <a href="https://www.facebook.com/DearMierre" target="_blank" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold text-lg hover:bg-blue-700 transition duration-300 flex items-center justify-center space-x-2">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33V22C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" />
+                        </svg>
+                        <span>Order Customized Cake on our Facebook</span>
+                    </a>
+
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Burnt Basque Cheesecake Order Modal (Specific Modal) -->
+    <div id="basque-cheesecake-modal" class="modal-overlay hidden">
+        <div class="modal-content relative bg-white rounded-xl shadow-2xl p-6 sm:p-8 w-11/12 max-w-4xl max-h-[90vh] overflow-y-auto">
+            <!-- Close button -->
+            <button id="modal-close-button-basque" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <div class="modal-header text-center mb-6">
+                <h2 class="text-3xl font-bold text-gray-800">Order Burnt Basque Cheesecake</h2>
+                <p class="text-lg text-gray-500">(Select your preferred size)</p>
+            </div>
+
+            <div class="modal-body grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Left Column: Product Image, Details, Description, and Baker's Note -->
+                <div class="flex flex-col items-center lg:items-start lg:col-span-1 space-y-4">
+                    <!-- Product Image & Basic Details -->
+                    <div class="flex flex-col items-center w-full">
+                        <img id="modal-basque-image" src="" alt="Product Image" class="w-48 h-48 sm:w-64 sm:h-64 rounded-full object-cover shadow-md mb-4">
+                        <h3 id="modal-basque-name" class="text-2xl font-bold text-gray-800 mb-1 text-center"></h3>
+                        <p id="modal-basque-price-display" class="text-5xl font-extrabold text-purple-700 text-center">₱0.00</p>
+                    </div>
+
+                    <!-- Product Description -->
+                    <div class="bg-gray-50 p-4 rounded-lg shadow-inner w-full">
+                        <h4 class="text-lg font-semibold text-gray-700 mb-3">Product Description</h4>
+                        <p id="modal-basque-description" class="text-sm text-gray-600 leading-relaxed">
+                            <!-- This will be populated by JavaScript -->
+                        </p>
+                    </div>
+
+                    <!-- Baker's Note -->
+                    <div class="bg-gray-50 p-4 rounded-lg shadow-inner w-full">
+                        <h4 class="text-lg font-semibold text-gray-700 mb-3">Baker's Note</h4>
+                        <p id="modal-basque-bakers-note" class="text-sm text-gray-600 leading-relaxed">
+                            <!-- This will be populated by JavaScript -->
+                        </p>
+                    </div>
+                </div>
+                <!-- Right Column: Size Selection and Price -->
+                <div class="lg:col-span-1 space-y-6">
+                    <!-- No "Customization Options (Cake)" heading here -->
+
+                    <!-- Basque Cheesecake Size Selection -->
+                    <div class="bg-gray-50 p-4 rounded-lg shadow-inner w-full">
+                        <h4 class="text-lg font-semibold text-gray-700 mb-3">Sizes & Quantities:</h4>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button class="basque-size-button px-4 py-2 rounded-lg text-gray-700 font-medium hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 border border-gray-300 m-1" data-basque-size="p/slice">
+                                P/Slice <span class="availability-status" data-availability-for="p/slice"></span>
+                            </button>
+                            <button class="basque-size-button px-4 py-2 rounded-lg text-gray-700 font-medium hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 border border-gray-300 m-1" data-basque-size="4s cupcake">
+                                4's Cupcake <span class="availability-status" data-availability-for="4s cupcake"></span>
+                            </button>
+                            <button class="basque-size-button px-4 py-2 rounded-lg text-gray-700 font-medium hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 border border-gray-300 m-1" data-basque-size="12s cupcake">
+                                12's Cupcake <span class="availability-status" data-availability-for="12s cupcake"></span>
+                            </button>
+                            <button class="basque-size-button px-4 py-2 rounded-lg text-gray-700 font-medium hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 border border-gray-300 m-1" data-basque-size="bento">
+                                Bento <span class="availability-status" data-availability-for="bento"></span>
+                            </button>
+                            <button class="basque-size-button px-4 py-2 rounded-lg text-gray-700 font-medium hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 border border-gray-300 m-1" data-basque-size="6inch">
+                                6 Inch <span class="availability-status" data-availability-for="6inch"></span>
+                            </button>
+                        </div>
+                    </div>
+                    
+
+                    <!-- Price Placeholder for Basque Cheesecake Sizes -->
+                    <div class="mb-6 p-4 border border-gray-300 rounded-lg bg-gray-50">
+                        <label class="block text-gray-800 text-lg font-semibold mb-2">Selected Option Price:</label>
+                        <div class="price-display text-purple-700 text-5xl">
+                            ₱<span id="basque-price-placeholder">0.00</span>
+                        </div>
+                    </div>
+
+                    <a href="https://www.facebook.com/DearMierre" target="_blank" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold text-lg hover:bg-blue-700 transition duration-300 flex items-center justify-center space-x-2">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33V22C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" />
+                        </svg>
+                        <span>Order Now On Our Facebook</span>
+                    </a>
+                 </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Cookie Order Modal (New Modal) -->
+    <div id="cookie-order-modal" class="modal-overlay hidden">
+        <div class="modal-content relative bg-white rounded-xl shadow-2xl p-6 sm:p-8 w-11/12 max-w-4xl max-h-[90vh] mx-auto">
+            <!-- Close button -->
+            <button id="modal-close-button-cookie" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+
+            <div class="modal-header text-center mb-6">
+                <h2 class="text-3xl font-bold text-gray-800">Order Your Cookies</h2>
+                <p class="text-lg text-gray-500">(Select quantity)</p>
+            </div>
+
+            <div class="modal-body flex flex-col md:flex-row items-center md:items-start gap-6">
+                <!-- Cookie Image & Name -->
+                <div class="flex-shrink-0 w-full md:w-1/2 flex flex-col items-center">
+                    <img id="modal-cookie-image" src="" alt="Cookie Image" class="w-48 h-48 sm:w-64 sm:h-64 rounded-full object-cover shadow-md mb-4">
+                    <h3 id="modal-cookie-name" class="text-2xl font-bold text-gray-800 mb-1 text-center"></h3>
+                </div>
+
+                <!-- Cookie Details and Quantity Selection -->
+                <div class="flex-grow w-full md:w-1/2">
+                    <p id="modal-cookie-description" class="text-gray-700 mb-4 text-sm leading-relaxed">
+                        <!-- Populated by JS -->
+                    </p>
+
+                    <div class="mb-5">
+                        <label class="block text-gray-800 text-lg font-semibold mb-2">Select Quantity:</label>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                            <button class="button-quantity px-5 py-3 rounded-lg text-gray-700 font-medium hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50" data-quantity="1">P/Piece</button>
+                            <button class="button-quantity px-5 py-3 rounded-lg text-gray-700 font-medium hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50" data-quantity="4">By 4</button>
+                            <button class="button-quantity px-5 py-3 rounded-lg text-gray-700 font-medium hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50" data-quantity="6">By 6</button>
+                            <button class="button-quantity px-5 py-3 rounded-lg text-gray-700 font-medium hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50" data-quantity="12">By 12</button>
+                        </div>
+                    </div>
+
+                    <div class="mb-6 p-4 border border-gray-300 rounded-lg bg-gray-50">
+                        <label class="block text-gray-800 text-lg font-semibold mb-2">Selected Option Price:</label>
+                        <div class="price-display text-purple-700 text-5xl">
+                            ₱<span id="cookie-price-placeholder">0.00</span>
+                        </div>
+                    </div>
+                    <a href="https://www.facebook.com/DearMierre" target="_blank" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold text-lg hover:bg-blue-700 transition duration-300 flex items-center justify-center space-x-2">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33V22C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" />
+                        </svg>
+                        <span>Order Now On Our Facebook</span>
+                    </a></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main script.js (now handles local user state) -->
+    <script src="js/script.js" type="module"></script>
+</body>
+</html>
