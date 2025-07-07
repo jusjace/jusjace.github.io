@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dear Mierre - Custom Cakes Gallery</title>
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Tailwind config remains inline as it's a configuration, not general script
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#6B46C1', // Matches your categories.html primary color
+                        secondary: '#EDF2F7', // Matches your categories.html secondary color
+                        'purple-600': '#6B46C1', // Ensuring consistency for purple buttons
+                        'purple-700': '#553C9A', // A slightly darker purple for text/accents
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts - Inter for clean typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Link to external CSS file (for splash screen animations, etc.) -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="font-inter bg-gray-50 text-gray-800">
+
+    <!-- Fixed Header Bar (Copied for consistency) -->
+    <header class="header fixed top-0 left-0 right-0 bg-white p-4 shadow-md z-50 flex flex-col sm:flex-row items-center justify-between rounded-b-xl max-w-full">
+        <!-- Left section: Permanent Small Logo and Business Name -->
+        <div id="header-left-section" class="flex items-center space-x-4 mb-2 sm:mb-0">
+            <img id="logo-small-header" src="images/logo.png" alt="Cafe Logo" class="w-10 h-10 rounded-full">
+            <span id="business-name" class="text-gray-800 font-semibold text-base sm:text-lg">Dear Mierre</span>
+        </div>
+        <!-- Middle section: Navigation links -->
+        <nav class="flex-grow flex justify-center w-full sm:w-auto">
+            <ul class="flex space-x-4 sm:space-x-6 text-gray-700 font-medium text-sm sm:text-base">
+                <li><a href="index.html" class="hover:text-purple-600 transition duration-300">Home</a></li>
+                <li><a href="categories.html" class="hover:text-purple-600 transition duration-300">Menu</a></li>
+                <li><a href="gallery.html" class="hover:text-purple-600 transition duration-300 border-b-2 border-purple-600 pb-1">Gallery</a></li><!-- Highlighted for current page -->
+                <li><a href="AboutUs.html" class="hover:text-purple-600 transition duration-300">About Us</a></li>
+            </ul>
+        </nav>
+        
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="pt-20 pb-8 px-4 sm:px-8 md:px-12 lg:px-16">
+
+        <!-- Hero Section for Gallery -->
+        <section class="relative bg-cover bg-center h-64 sm:h-80 md:h-96 flex items-center justify-center text-white p-4 rounded-xl shadow-lg mb-12" style="background-image: url('images/home2.jpg');">
+            <div class="absolute inset-0 bg-black opacity-40 rounded-xl"></div>
+            <div class="relative z-10 text-center">
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight drop-shadow-lg">Our Custom Creations</h1>
+                <p class="text-lg sm:text-xl md:text-2xl mt-2 drop-shadow-md">A Gallery of Sweet Art</p>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section class="bg-white p-6 sm:p-8 rounded-xl shadow-lg mb-12 max-w-6xl mx-auto">
+            <h2 class="text-3xl sm:text-4xl font-bold text-center text-gray-800 mb-10">Past Customized Cakes</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+                <!-- Gallery Item 1 -->
+                <div class="gallery-item bg-gray-50 rounded-xl shadow-md overflow-hidden cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-xl"
+                     data-image-src=""
+                     data-image-alt="2 Tier Frozen Themed Cake w cupcake"
+                     data-image-description="A beautiful three-tier wedding cake adorned with delicate sugar flowers, perfect for a garden wedding.">
+                    <img src="gallery/frozen.jpg" alt="2 Tier Frozen Themed Cake w cupcake" class="w-full h-32 sm:h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-m font-semibold text-gray-800 mb-1">Frozen Themed Cake w cupcake</h3>
+                        <p class="text-gray-600 text-sm">2 Tier Moist Chocolate Cake with printed toppers.</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 2 -->
+                <div class="gallery-item bg-gray-50 rounded-xl shadow-md overflow-hidden cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-xl"
+                     data-image-src=""
+                     data-image-alt="Beer Cake"
+                     data-image-description="A vibrant and fun birthday cake featuring popular superhero characters, sure to delight any child.">
+                    <img src="gallery/beer.jpg" alt="Beer Cake" class="w-full h-32 sm:h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-m font-semibold text-gray-800 mb-1">Beer Themed Cake</h3>
+                        <p class="text-gray-600 text-sm">Vanilla Chiffon w yema filling</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 3 -->
+                <div class="gallery-item bg-gray-50 rounded-xl shadow-md overflow-hidden cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-xl"
+                     data-image-src=""
+                     data-image-alt="pinkheart"
+                     data-image-description="A charming baby shower cake decorated with adorable fondant animals and pastel colors.">
+                    <img src="gallery/pinkheart.jpg" alt="Baby Shower Cake" class="w-full h-32 sm:h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-m font-semibold text-gray-800 mb-1">Pink cake w white choco heart shaped</h3>
+                        <p class="text-gray-600 text-sm">7x3 Vanilla Chiffon w yema filling</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 4 -->
+                <div class="gallery-item bg-gray-50 rounded-xl shadow-md overflow-hidden cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-xl"
+                     data-image-src=""
+                     data-image-alt="Father Cake"
+                     data-image-description="A sophisticated anniversary cake with intricate piping and a personalized topper, celebrating years of love.">
+                    <img src="gallery/father.jpg" alt="Father Cake" class="w-full h-32 sm:h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-m font-semibold text-gray-800 mb-1">Father's Day Cake</h3>
+                        <p class="text-gray-600 text-sm">Vanilla Chiffon w yema filling</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 5 -->
+                <div class="gallery-item bg-gray-50 rounded-xl shadow-md overflow-hidden cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-xl"
+                     data-image-src="https://placehold.co/800x600/f8d2e3/8a2e5c?text=Mini+Donut"
+                     data-image-alt="mdonut"
+                     data-image-description="A celebratory cake shaped like a graduation cap, perfect for honoring academic achievements.">
+                    <img src="gallery/mdonut.jpg" alt="mdonut" class="w-full h-32 sm:h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-m font-semibold text-gray-800 mb-1">Mini Donuts</h3>
+                        <p class="text-gray-600 text-sm">Customized Premium Mini Donuts</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 6 -->
+                <div class="gallery-item bg-gray-50 rounded-xl shadow-md overflow-hidden cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-xl"
+                     data-image-src="https://placehold.co/800x600/e3f8d2/5c8a2e?text=Themed+Cake"
+                     data-image-alt="Milestone Cake"
+                     data-image-description="An intricate fantasy-themed cake with edible figures and magical details, bringing dreams to life.">
+                    <img src="gallery/rbento.jpg" alt="Milestone Cake" class="w-full h-32 sm:h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-m font-semibold text-gray-800 mb-1">Milestone Bento Cake</h3>
+                        <p class="text-gray-600 text-sm">Bento Vanilla Chiffon w yema filling</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 7 -->
+                <div class="gallery-item bg-gray-50 rounded-xl shadow-md overflow-hidden cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-xl"
+                     data-image-src="https://placehold.co/800x600/e3f8d2/5c8a2e?text=Themed+Cake"
+                     data-image-alt="Teachers Cake"
+                     data-image-description="An intricate fantasy-themed cake with edible figures and magical details, bringing dreams to life.">
+                    <img src="gallery/teacher.jpg" alt="Teachers Cake" class="w-full h-32 sm:h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-m font-semibold text-gray-800 mb-1">Teacher's Day Cake</h3>
+                        <p class="text-gray-600 text-sm">Vanilla Chiffon w yema filling</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item  9-->
+                <div class="gallery-item bg-gray-50 rounded-xl shadow-md overflow-hidden cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-xl"
+                     data-image-src="https://placehold.co/800x600/e3f8d2/5c8a2e?text=Themed+Cake"
+                     data-image-alt="Butterfly Cake"
+                     data-image-description="An intricate fantasy-themed cake with edible figures and magical details, bringing dreams to life.">
+                    <img src="gallery/butterfly.jpg" alt="Butterfly Cake" class="w-full h-32 sm:h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-m font-semibold text-gray-800 mb-1">Butterfly Cake</h3>
+                        <p class="text-gray-600 text-sm">Vanilla Chiffon w yema filling</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item  10-->
+                <div class="gallery-item bg-gray-50 rounded-xl shadow-md overflow-hidden cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-xl"
+                     data-image-src="https://placehold.co/800x600/e3f8d2/5c8a2e?text=Themed+Cake"
+                     data-image-alt="50th Cake"
+                     data-image-description="An intricate fantasy-themed cake with edible figures and magical details, bringing dreams to life.">
+                    <img src="gallery/floral.jpg" alt="50th Cake" class="w-full h-32 sm:h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-m font-semibold text-gray-800 mb-1">50th Birthday Cake</h3>
+                        <p class="text-gray-600 text-sm">Customized Vanilla Chiffon w yema filling</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item  10-->
+                <div class="gallery-item bg-gray-50 rounded-xl shadow-md overflow-hidden cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-xl"
+                     data-image-src="https://placehold.co/800x600/e3f8d2/5c8a2e?text=Themed+Cake"
+                     data-image-alt="Cocomelon Cake"
+                     data-image-description="An intricate fantasy-themed cake with edible figures and magical details, bringing dreams to life.">
+                    <img src="gallery/ccm.jpg" alt="Cocomelon Cake" class="w-full h-32 sm:h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-m font-semibold text-gray-800 mb-1">Cocomelon Themed Cake</h3>
+                        <p class="text-gray-600 text-sm">Customized Vanilla Chiffon w yema filling</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item  10-->
+                <div class="gallery-item bg-gray-50 rounded-xl shadow-md overflow-hidden cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-xl"
+                     data-image-src="https://placehold.co/800x600/e3f8d2/5c8a2e?text=Themed+Cake"
+                     data-image-alt="Mango Cake"
+                     data-image-description="An intricate fantasy-themed cake with edible figures and magical details, bringing dreams to life.">
+                    <img src="gallery/mango.jpg" alt="Mango Cake" class="w-full h-32 sm:h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-m font-semibold text-gray-800 mb-1">Mango Bravo Cake</h3>
+                        <p class="text-gray-600 text-sm">Mix Vanilla Chiffon and Choco Moist cake with real mango filling and choco drizzle on top.</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item  10-->
+                <div class="gallery-item bg-gray-50 rounded-xl shadow-md overflow-hidden cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-xl"
+                     data-image-src="https://placehold.co/800x600/e3f8d2/5c8a2e?text=Themed+Cake"
+                     data-image-alt="Mother Cake"
+                     data-image-description="An intricate fantasy-themed cake with edible figures and magical details, bringing dreams to life.">
+                    <img src="gallery/hmd.jpg" alt="Mother Cake" class="w-full h-32 sm:h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-m font-semibold text-gray-800 mb-1">Mother's Day Cake</h3>
+                        <p class="text-gray-600 text-sm">Bento w 2 cupcake, Vanilla Chiffon w yema filling.</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item  10-->
+                <div class="gallery-item bg-gray-50 rounded-xl shadow-md overflow-hidden cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-xl"
+                     data-image-src="https://placehold.co/800x600/e3f8d2/5c8a2e?text=Themed+Cake"
+                     data-image-alt="rb Cake"
+                     data-image-description="An intricate fantasy-themed cake with edible figures and magical details, bringing dreams to life.">
+                    <img src="gallery/rb.jpg" alt="rb Cake" class="w-full h-32 sm:h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-m font-semibold text-gray-800 mb-1">Rainbow Cake</h3>
+                        <p class="text-gray-600 text-sm">8x6 Choco Moist.</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item  10-->
+                <div class="gallery-item bg-gray-50 rounded-xl shadow-md overflow-hidden cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-xl"
+                     data-image-src="https://placehold.co/800x600/e3f8d2/5c8a2e?text=Themed+Cake"
+                     data-image-alt="angel Cake"
+                     data-image-description="An intricate fantasy-themed cake with edible figures and magical details, bringing dreams to life.">
+                    <img src="gallery/angel.jpg" alt="angel Cake" class="w-full h-32 sm:h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-m font-semibold text-gray-800 mb-1">Angel Themed Cake</h3>
+                        <p class="text-gray-600 text-sm">6x6 Choco Moist.</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item  8-->
+                <div class="gallery-item bg-gray-50 rounded-xl shadow-md overflow-hidden cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-xl"
+                     data-image-src="https://placehold.co/800x600/e3f8d2/5c8a2e?text=Themed+Cake"
+                     data-image-alt="Christmas Cake"
+                     data-image-description="An intricate fantasy-themed cake with edible figures and magical details, bringing dreams to life.">
+                    <img src="gallery/cms.jpg" alt="Christmas Cake" class="w-full h-32 sm:h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-m font-semibold text-gray-800 mb-1">Christmas Cake</h3>
+                        <p class="text-gray-600 text-sm">Vanilla Chiffon w yema filling</p>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="text-center mt-12">
+                <p class="text-lg text-gray-700 mb-4">Want to see more of our past creations?</p>
+                <a href="https://www.facebook.com/JusminBakes" target="_blank" class="inline-block bg-primary hover:bg-purple-700 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+                    Click here!
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Image Modal Structure -->
+    <div id="image-modal" class="hidden fixed inset-0 bg-black bg-opacity-75 z-[1000] flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-2xl p-6 relative max-w-3xl w-full max-h-[90vh] overflow-y-auto transform transition-all duration-300 scale-95 opacity-0 modal-content">
+            <!-- Close Button -->
+            <button class="absolute top-3 right-3 text-gray-600 hover:text-gray-900 text-3xl font-bold focus:outline-none" onclick="closeModal(document.getElementById('image-modal'))">&times;</button>
+            <div class="flex flex-col items-center">
+                <img id="modal-image" src="" alt="" class="max-w-full h-auto rounded-lg shadow-md mb-4 object-contain max-h-[60vh]">
+                <h3 id="modal-image-title" class="text-2xl font-bold text-gray-800 mb-2 text-center"></h3>
+                <p id="modal-image-description" class="text-sm text-gray-600 leading-relaxed text-center"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer (Copied for consistency) -->
+    <footer class="bg-gray-800 text-gray-300 py-8 px-4 sm:px-8 text-center rounded-t-xl">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-8 mb-6">
+                <a href="index.html" class="hover:text-white transition duration-300">Home</a>
+                <a href="categories.html" class="hover:text-white transition duration-300">Menu</a>
+                <a href="gallery.html" class="hover:text-white transition duration-300">Gallery</a>
+                <a href="AboutUs.html" class="hover:text-white transition duration-300">About Us</a>
+            </div>
+            <div class="flex justify-center space-x-6 mb-6">
+                <!-- Facebook Icon -->
+                <a href="YOUR_FACEBOOK_PAGE_URL_HERE" target="_blank" class="text-gray-300 hover:text-white transition duration-300">
+                    <svg class="h-7 w-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33V22C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" />
+                    </svg>
+                </a>
+                <!-- Instagram Icon -->
+                <a href="YOUR_INSTAGRAM_PAGE_URL_HERE" target="_blank" class="text-gray-300 hover:text-white transition duration-300">
+                    <svg class="h-7 w-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.715.01 3.657.049.926.035 1.78.166 2.483.407.704.237 1.276.58 1.818 1.123.542.542.887 1.113 1.123 1.817.24.703.372 1.556.407 2.482.039.946.049 1.23.049 3.657 0 2.43-.01 2.715-.049 3.657-.035.926-.166 1.78-.407 2.483-.237.704-.58 1.276-1.123 1.818-.542.542-1.113.887-1.123-1.817-.24-.703-.372-1.556-.407-2.482-.039-.946-.049-1.23-.049-3.657zM12 1.9c2.53 0 2.817.01 3.75.05.93.036 1.66.157 2.22.37.56.213 1.01.49 1.43.91.42.42.697.87.91 1.43.213.56.335 1.29.37 2.22.04 1.033.05 1.32.05 3.85s-.01 2.817-.05 3.75c-.036.93-.157 1.66-.37 2.22-.213.56-.49 1.01-.91 1.43-.42.42-.87.697-1.43.91-.56.213-1.29.335-2.22.37-1.033.04-1.32.05-3.85.05s-2.817-.01-3.75-.05c-.93-.036-1.66-.157-2.22-.37-.56-.213-1.01-.49-1.43-.91-.42-.42-.697-.87-.91-1.43-.213-.56-.335-1.29-.37-2.22-.04-1.033-.05-1.32-.05-3.85s.01-2.817.05-3.75c.036-.93.157-1.66.37-2.22.213-.56.49-1.01.91-1.43.42-.42.87-.697 1.43-.91.56-.213 1.29-.335 2.22-.37 1.033-.04 1.32-.05 3.85-.05zm0-2c-2.67 0-3.032.01-4.085.051-.988.038-1.814.18-2.504.44-.69.26-1.254.63-1.787 1.163-.533.533-.903 1.098-1.163 1.787-.26.69-.402 1.516-.44 2.504-.04 1.053-.051 1.415-.051 4.085s.011 3.032.051 4.085c.038.988.18 1.814.44 2.504.26.69.63 1.254 1.163 1.787.533.533 1.098.903 1.787 1.163.69.26 1.516.402 2.504.44 1.053.04 1.415.051 4.085.051s3.032-.011 4.085-.051c.988-.038 1.814-.18 2.504-.44.69-.26 1.254-.63 1.787-1.163.533-.533 1.098-.903 1.163-1.787.26-.69.402-1.516.44-2.504.04-1.053.051-1.415.051-4.085s-.011-3.032-.051-4.085c-.038-.988-.18-1.814-.44-2.504-.26-.69-.63-1.254-1.163-1.787-.533-.533-1.098-.903-1.787-1.163-.69-.26-1.516-.402-2.504-.44-1.053-.04-1.415-.051-4.085-.051zM12 15a3 3 0 100-6 3 3 0 000 6zm0 2a5 5 0 110-10 5 5 0 010 10z" clip-rule="evenodd" />
+                    </svg>
+                </a>
+            </div>
+            <p class="text-sm">&copy; 2025 Dear Mierre. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Link to external JavaScript file -->
+    <script src="script.js"></script>
+</body>
+</html>
