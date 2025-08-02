@@ -15,10 +15,10 @@
                         inter: ['Inter', 'sans-serif'],
                     },
                     colors: {
-                        primary: '#6B46C1',
-                        secondary: '#EDF2F7', 
-                        'purple-600': '#6B46C1',
-                        'purple-700': '#553C9A', 
+                        primary: '#6B46C1', // Matches your categories.html primary color
+                        secondary: '#EDF2F7', // Matches your categories.html secondary color
+                        'purple-600': '#6B46C1', // Ensuring consistency for purple buttons
+                        'purple-700': '#553C9A', // A slightly darker purple for text/accents
                     }
                 }
             }
@@ -64,7 +64,7 @@
 
         <!-- Hero Section -->
         <section class="relative bg-cover bg-center h-screen flex items-center justify-center text-white p-4" style="background-image: URL('images/home1.jpg');">
-            <div class="absolute inset-0 bg-black opacity-50 rounded-b-xl"></div>
+            <div class="absolute inset-0 bg-black opacity-50 rounded-b-xl"></div> <!-- Overlay for text readability -->
             <div class="relative z-10 text-center max-w-3xl mx-auto">
                 <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 leading-tight drop-shadow-lg animate-fade-in-up">Indulge in Sweet Perfection</h1>
                 <p class="text-lg sm:text-xl md:text-2xl mb-8 drop-shadow-md animate-fade-in-up delay-200">Crafted with Love, Baked for You.</p>
@@ -78,7 +78,7 @@
         <section class="py-16 px-4 sm:px-8 bg-white shadow-lg rounded-xl mx-auto -mt-16 relative z-20 max-w-6xl">
             <div class="flex flex-col md:flex-row items-center gap-8">
                 <div class="md:w-1/2">
-                    <img src="https://placehold.co/600x400/EDF2F7/6B46C1?text=Our+Bakery" alt="Our Bakery" class="rounded-xl shadow-md w-full h-auto object-cover">
+                    <img src="images/bakery.JPG" alt="Our Bakery" class="rounded-xl shadow-md w-full h-auto object-cover">
                 </div>
                 <div class="md:w-1/2 text-center md:text-left">
                     <h2 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-4">Our Sweet Story</h2>
@@ -92,32 +92,32 @@
             </div>
         </section>
 
-        <!-- Featured Products Section -->
+        <!-- Featured Products Section 
         <section class="py-16 px-4 sm:px-8 bg-gray-50">
-            <h2 class="text-1xl sm:text-2xl font-bold text-center text-gray-800 mb-10">Our Best Sellers</h2>
-            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
-                <!-- Featured Product 1 -->
+            <h2 class="text-3xl sm:text-4xl font-bold text-center text-gray-800 mb-10">Our Best Sellers</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+                
                 <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center text-center transform transition duration-300 hover:scale-105 hover:shadow-xl">
                     <img src="images/moist.jpg" alt="Moist Chocolate Cake" class="w-32 h-32 rounded-full object-cover mb-4 shadow-md">
                     <h3 class="text-xl font-semibold text-gray-800 mb-2">Moist Chocolate Cake</h3>
                     <p class="text-gray-600 text-sm mb-4">Rich, decadent, and utterly irresistible.</p>
                     <a href="categories.html" class="text-purple-600 hover:text-purple-800 font-medium transition duration-300">View Details &rarr;</a>
                 </div>
-                <!-- Featured Product 2 -->
+                
                 <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center text-center transform transition duration-300 hover:scale-105 hover:shadow-xl">
                     <img src="images/burnt.jpg" alt="Burnt Basque Cheesecake" class="w-32 h-32 rounded-full object-cover mb-4 shadow-md">
                     <h3 class="text-xl font-semibold text-gray-800 mb-2">Burnt Basque Cheesecake</h3>
                     <p class="text-gray-600 text-sm mb-4">Creamy, caramelized, and perfectly rustic.</p>
                     <a href="categories.html" class="text-purple-600 hover:text-purple-800 font-medium transition duration-300">View Details &rarr;</a>
                 </div>
-                <!-- Featured Product 3 -->
+                
                 <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center text-center transform transition duration-300 hover:scale-105 hover:shadow-xl">
                     <img src="images/chocochip.jpg" alt="Chocolate Cookie" class="w-32 h-32 rounded-full object-cover mb-4 shadow-md">
                     <h3 class="text-xl font-semibold text-gray-800 mb-2">Chocolate Cookie</h3>
                     <p class="text-gray-600 text-sm mb-4">Classic chewy cookies with generous chocolate chunks.</p>
                     <a href="categories.html" class="text-purple-600 hover:text-purple-800 font-medium transition duration-300">View Details &rarr;</a>
                 </div>
-                <!-- Featured Product 4 -->
+                
                 <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center text-center transform transition duration-300 hover:scale-105 hover:shadow-xl">
                     <img src="images/latte.jpg" alt="Iced Latte" class="w-32 h-32 rounded-full object-cover mb-4 shadow-md">
                     <h3 class="text-xl font-semibold text-gray-800 mb-2">Iced Latte</h3>
@@ -131,12 +131,13 @@
                 </a>
             </div>
         </section>
+        -->
 
-        <!-- Customer Testimonials Section -->
+        <!-- Customer Testimonials Section 
         <section class="py-16 px-4 sm:px-8 bg-secondary">
-            <h2 class="text-2xl sm:text-4xl font-bold text-center text-gray-800 mb-10">What Our Customers Say</h2>
+            <h2 class="text-3xl sm:text-4xl font-bold text-center text-gray-800 mb-10">What Our Customers Say</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                <!-- Testimonial 1 -->
+                
                 <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
                     <p class="text-lg italic text-gray-700 mb-4">"The Moist Chocolate Cake was absolutely divine! So moist and rich, truly the best I've ever had. Highly recommend Dear Mierre!"</p>
                     <p class="font-semibold text-gray-800">- Sarah L.</p>
@@ -148,7 +149,7 @@
                         <span class="text-yellow-400">&#9733;</span>
                     </div>
                 </div>
-                <!-- Testimonial 2 -->
+                
                 <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
                     <p class="text-lg italic text-gray-700 mb-4">"Their pastries are a game-changer! Freshly baked and so flavorful. The Biscoff Cookie is my new addiction. Amazing quality!"</p>
                     <p class="font-semibold text-gray-800">- Mark T.</p>
@@ -162,6 +163,7 @@
                 </div>
             </div>
         </section>
+        -->
 
         <!-- Why Choose Us Section -->
         <section class="py-16 px-4 sm:px-8 bg-white">
@@ -209,13 +211,11 @@
                 <a href="https://www.facebook.com/DearMierre" class="inline-block bg-white text-primary hover:bg-gray-100 font-semibold py-3 px-8 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
                     Place Your Order on our FB Page
                 </a>
-                <a href="mailto:your-email@example.com" class="inline-block bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary font-semibold py-3 px-8 rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
-                    Email Us
-                </a>
+                
             </div>
             <div class="mt-8 text-sm">
-                <p>Call Us: <a href="tel:+1234567890" class="underline hover:text-gray-200 transition duration-300">+1 (234) 567-890</a></p>
-                <p>Operating Hours: Mon-Sat: 9 AM - 6 PM | Sunday: Closed</p>
+                <p>Call Us: <a href="" class="hover:text-gray-200 transition duration-300">+639126781630</a></p>
+                <p>Operating Hours: Mon-Sun: 9 AM - 6 PM | still depends on my sched sometimes<p>
                 <p class="mt-4">For custom orders, message us on <a href="https://www.facebook.com/DearMierre" target="_blank" class="underline hover:text-gray-200 transition duration-300">Facebook</a>!</p>
             </div>
         </section>
@@ -227,6 +227,7 @@
                     <a href="index.html" class="hover:text-white transition duration-300">Home</a>
                     <a href="categories.html" class="hover:text-white transition duration-300">Menu</a>
                     <a href="AboutUs.html" class="hover:text-white transition duration-300">About Us</a>
+                    <a href="#" class="hover:text-white transition duration-300">Contact</a>
                 </div>
                 <div class="flex justify-center space-x-6 mb-6">
                     <!-- Facebook Icon -->
@@ -235,12 +236,13 @@
                             <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33V22C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" />
                         </svg>
                     </a>
-                    <!-- Instagram Icon -->
+                    <!-- Instagram Icon 
                     <a href="YOUR_INSTAGRAM_PAGE_URL_HERE" target="_blank" class="text-gray-300 hover:text-white transition duration-300">
                         <svg class="h-7 w-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.715.01 3.657.049.926.035 1.78.166 2.483.407.704.237 1.276.58 1.818 1.123.542.542.887 1.113 1.123 1.817.24.703.372 1.556.407 2.482.039.946.049 1.23.049 3.657 0 2.43-.01 2.715-.049 3.657-.035.926-.166 1.78-.407 2.483-.237.704-.58 1.276-1.123 1.818-.542.542-1.113.887-1.817 1.123-.703.24-1.556.372-2.482.407-.946.039-1.23.049-3.657.049-2.43 0-2.715-.01-3.657-.049-.926-.035-1.78-.166-2.483-.407-.704-.237-1.276-.58-1.818-1.123-.542-.542-.887-1.113-1.123-1.817-.24-.703-.372-1.556-.407-2.482-.039-.946-.049-1.23-.049-3.657 0-2.43.01-2.715.049-3.657.035-.926.166-1.78.407-2.483.237-.704.58-1.276 1.123-1.818.542-.542 1.113-.887 1.123-1.817.24-.703.372-1.556.407-2.482.039-.946.049-1.23.049-3.657zM12 1.9c2.53 0 2.817.01 3.75.05.93.036 1.66.157 2.22.37.56.213 1.01.49 1.43.91.42.42.697.87.91 1.43.213.56.335 1.29.37 2.22.04 1.033.05 1.32.05 3.85s-.01 2.817-.05 3.75c-.036.93-.157 1.66-.37 2.22-.213.56-.49 1.01-.91 1.43-.42.42-.87.697-1.43.91-.56.213-1.29.335-2.22.37-1.033.04-1.32.05-3.85.05s-2.817-.01-3.75-.05c-.93-.036-1.66-.157-2.22-.37-.56-.213-1.01-.49-1.43-.91-.42-.42-.697-.87-.91-1.43-.213-.56-.335-1.29-.37-2.22-.04-1.033-.05-1.32-.05-3.85s.01-2.817.05-3.75c.036-.93.157-1.66.37-2.22.213-.56.49-1.01.91-1.43.42-.42.87-.697 1.43-.91.56-.213 1.29-.335 2.22-.37 1.033-.04 1.32-.05 3.85-.05zm0-2c-2.67 0-3.032.01-4.085.051-.988.038-1.814.18-2.504.44-.69.26-1.254.63-1.787 1.163-.533.533-.903 1.098-1.163 1.787-.26.69-.402 1.516-.44 2.504-.04 1.053-.051 1.415-.051 4.085s.011 3.032.051 4.085c.038.988.18 1.814.44 2.504.26.69.63 1.254 1.163 1.787.533.533 1.098.903 1.787 1.163.69.26 1.516.402 2.504.44 1.053.04 1.415.051 4.085.051s3.032-.011 4.085-.051c.988-.038 1.814-.18 2.504-.44.69-.26 1.254-.63 1.787-1.163.533-.533.903-1.098 1.163-1.787.26-.69.402-1.516.44-2.504.04-1.053.051-1.415.051-4.085s-.011-3.032-.051-4.085c-.038-.988-.18-1.814-.44-2.504-.26-.69-.63-1.254-1.163-1.787-.533-.533-1.098-.903-1.787-1.163-.69-.26-1.516-.402-2.504-.44-1.053-.04-1.415-.051-4.085-.051zM12 15a3 3 0 100-6 3 3 0 000 6zm0 2a5 5 0 110-10 5 5 0 010 10z" clip-rule="evenodd" />
                         </svg>
                     </a>
+                    -->
                 </div>
                 <p class="text-sm">&copy; 2025 Dear Mierre. All rights reserved.</p>
             </div>
