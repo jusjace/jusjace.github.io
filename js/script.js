@@ -7,6 +7,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Define a key for sessionStorage
     const SPLASH_SHOWN_KEY = 'splashScreenShown';
+    // --- Gallery Image Modal Logic ---
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    const imageModal = document.getElementById('image-modal');
+    const modalImage = document.getElementById('modal-image');
+    const modalImageTitle = document.getElementById('modal-image-title');
+    const modalImageDescription = document.getElementById('modal-image-description');
+
+    if (galleryItems.length > 0 && imageModal && modalImage && modalImageTitle && modalImageDescription) {
+        galleryItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const imgSrc = item.dataset.imageSrc;
+                const imgAlt = item.dataset.imageAlt;
+                const imgDescription = item.dataset.imageDescription;
+
+                modalImage.src = imgSrc;
+                modalImage.alt = imgAlt;
+                modalImageTitle.textContent = imgAlt; // Using alt as title for consistency
+                modalImageDescription.textContent = imgDescription;
+
+                openModal(imageModal);
+            });
+        });
+
+        // Close modal when clicking outside the content
+        imageModal.addEventListener('click', (event) => {
+            if (event.target === imageModal) {
+                 closeModal(imageModal);
+            }
+        });
+    }
 
     if (splashScreen && logoBigSplash && mainContent) {
         // Check if the splash screen has already been shown in this session
@@ -85,9 +115,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const icedCoffeeProductContainer = document.getElementById('iced-coffee-product-container');
     const showAllIcedCoffeeLink = document.getElementById('show-all-iced-coffee-link');
 
-    const dessertSection = document.getElementById('dessert-section'); // Assuming this exists and might be hidden
-    const dessertProductContainer = dessertSection ? dessertSection.querySelector('.grid') : null; // Get its product container
-    const showAllDessertLink = dessertSection ? dessertSection.querySelector('a[href="#"]') : null; // Get its show all link
+    const nonCoffeeSection = document.getElementById('non-coffee-section'); // New: Non-Coffee section
+    const nonCoffeeProductContainer = nonCoffeeSection ? nonCoffeeSection.querySelector('.grid') : null;
+    const showAllNonCoffeeLink = document.getElementById('show-all-non-coffee-link');
 
 
     // Cake Modal Elements (Standard Cakes)
@@ -123,6 +153,71 @@ document.addEventListener('DOMContentLoaded', () => {
     const cookieQuantityButtons = document.querySelectorAll('#cookie-order-modal .button-quantity');
     const cookiePricePlaceholder = document.getElementById('cookie-price-placeholder');
 
+    // Generic Drink Order Modal Elements (Renamed from Coffee Modal)
+    const drinkOrderModal = document.getElementById('drink-order-modal');
+    const modalCloseButtonDrink = document.getElementById('modal-close-button-drink');
+    const modalDrinkImage = document.getElementById('modal-drink-image');
+    const modalDrinkName = document.getElementById('modal-drink-name');
+    const modalDrinkDescription = document.getElementById('modal-drink-description');
+    const drinkPricePlaceholder = document.getElementById('drink-price-placeholder');
+    const drinkOptionButtons = document.querySelectorAll('#drink-order-modal .button-drink-option');
+    const drinkAddOnCheckboxes = document.querySelectorAll('#drink-order-modal .add-on-checkbox');
+    const drinkCoffeeTypeSection = document.getElementById('drink-coffee-type-section'); // To hide for non-coffee
+
+    // Matcha Series Order Modal Elements (New Specific Modal)
+    const matchaSeriesModal = document.getElementById('matcha-series-modal');
+    const modalCloseButtonMatcha = document.getElementById('modal-close-button-matcha');
+    const modalMatchaImage = document.getElementById('modal-matcha-image');
+    const modalMatchaName = document.getElementById('modal-matcha-name');
+    const modalMatchaDescription = document.getElementById('modal-matcha-description');
+    const matchaPricePlaceholder = document.getElementById('matcha-price-placeholder');
+    const matchaFlavorButtons = document.querySelectorAll('#matcha-series-modal .button-matcha-flavor');
+    const matchaOptionButtons = document.querySelectorAll('#matcha-series-modal .button-matcha-option');
+    const matchaAddOnCheckboxes = document.querySelectorAll('#matcha-series-modal .matcha-add-on-checkbox');
+
+    // Mini Waffles Order Modal Elements (New Specific Modal)
+    const miniWafflesModal = document.getElementById('mini-waffles-modal');
+    const modalCloseButtonWaffles = document.getElementById('modal-close-button-waffles');
+    const modalWafflesImage = document.getElementById('modal-waffles-image');
+    const modalWafflesName = document.getElementById('modal-waffles-name');
+    const modalWafflesDescription = document.getElementById('modal-waffles-description');
+    const wafflesPricePlaceholder = document.getElementById('waffles-price-placeholder');
+    const wafflesFlavorButtons = document.querySelectorAll('#mini-waffles-modal .button-waffles-flavor');
+    const wafflesOptionButtons = document.querySelectorAll('#mini-waffles-modal .button-waffles-option');
+    const wafflesAddOnCheckboxes = document.querySelectorAll('#mini-waffles-modal .waffles-add-on-checkbox');
+
+
+    // --- State Variables for Generic Drink Order ---
+    let currentDrinkBasePrice = 0;
+    let selectedDrinkOptions = {
+        size: { value: null, price: 0 },
+        type: { value: null, price: 0 },
+        'coffee-type': { value: null, price: 0 },
+        milk: { value: null, price: 0 },
+        sweetener: { value: null, price: 0 }
+    };
+    let selectedDrinkAddOns = [];
+
+    // --- State Variables for Matcha Series Order ---
+    let currentMatchaBasePrice = 0;
+    let selectedMatchaOptions = {
+        flavor: { value: null, price: 0, image: null }, // Added image to flavor option
+        size: { value: null, price: 0 },
+        milk: { value: null, price: 0 },
+        sweetener: { value: null, price: 0 }
+    };
+    let selectedMatchaAddOns = [];
+
+    // --- State Variables for Mini Waffles Order ---
+    let currentWafflesBasePrice = 0;
+    let selectedWafflesOptions = {
+        flavor: { value: null, price: 0, image: null }, // Added image to flavor option
+        size: { value: null, price: 0 },
+        milk: { value: null, price: 0 },
+        sweetener: { value: null, price: 0 }
+    };
+    let selectedWafflesAddOns = [];
+
 
     // --- Helper function to get product price for filtering ---
     function getProductFilterPrice(card) {
@@ -137,6 +232,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else if (card.dataset.category === 'pastries') {
                     // For pastries, assume '1' is the single piece price
                     return prices['1'] || 0;
+                } else if (card.dataset.category === 'iced-coffee' || card.dataset.category === 'non-coffee') {
+                    // For coffee/non-coffee, assume the smallest size is the base price for filtering
+                    const sizePrices = prices.size || {};
+                    const flavorPrices = prices; // For matcha, prices might be directly flavors
+                    
+                    if (Object.keys(sizePrices).length > 0) {
+                        return Math.min(...Object.values(sizePrices));
+                    } else if (card.dataset.modalType === 'matcha-series' && Object.keys(flavorPrices).length > 0) {
+                        // For matcha, get the lowest base_price from flavors
+                        const flavorBasePrices = Object.values(flavorPrices).map(f => f.base_price);
+                        return Math.min(...flavorBasePrices);
+                    }
+                    // Fallback for non-coffee if no size or flavor prices are defined, use data-price
+                    return parseFloat(card.dataset.price) || 0;
                 }
             } catch (e) {
                 console.error("Error parsing prices for filtering:", card.dataset.name, e);
@@ -158,17 +267,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Hide all category sections and show all links initially
-        [cakesSection, pastriesSection, icedCoffeeSection, dessertSection].forEach(section => {
+        [cakesSection, pastriesSection, icedCoffeeSection, nonCoffeeSection].forEach(section => {
             if (section) section.classList.add('hidden');
         });
-        [showAllCakesLink, showAllPastriesLink, showAllIcedCoffeeLink, showAllDessertLink].forEach(link => {
+        [showAllCakesLink, showAllPastriesLink, showAllIcedCoffeeLink, showAllNonCoffeeLink].forEach(link => {
             if (link) link.classList.add('hidden'); // Hide all "Show All" links during filtering
         });
 
         let cakesVisibleCount = 0;
         let pastriesVisibleCount = 0;
         let icedCoffeeVisibleCount = 0;
-        let dessertVisibleCount = 0;
+        let nonCoffeeVisibleCount = 0; // New: Non-Coffee visible count
 
         productCards.forEach(card => {
             const productCategory = card.dataset.category;
@@ -195,7 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (productCategory === 'cakes') cakesVisibleCount++;
                 else if (productCategory === 'pastries') pastriesVisibleCount++;
                 else if (productCategory === 'iced-coffee') icedCoffeeVisibleCount++;
-                else if (productCategory === 'dessert') dessertVisibleCount++;
+                else if (productCategory === 'non-coffee') nonCoffeeVisibleCount++; // Increment non-coffee count
             }
         });
 
@@ -203,7 +312,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (cakesVisibleCount > 0) cakesSection.classList.remove('hidden');
         if (pastriesVisibleCount > 0) pastriesSection.classList.remove('hidden');
         if (icedCoffeeVisibleCount > 0) icedCoffeeSection.classList.remove('hidden');
-        if (dessertVisibleCount > 0) dessertSection.classList.remove('hidden');
+        if (nonCoffeeVisibleCount > 0) nonCoffeeSection.classList.remove('hidden'); // Show non-coffee section
 
         // Restore initial limited view and "Show All" links if filters are reset
         if (selectedCategory === 'all' && selectedPriceRange === 'all') {
@@ -252,6 +361,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (showAllCakesLink) showAllCakesLink.classList.add('hidden'); // All cakes visible initially
     if (showAllIcedCoffeeLink) showAllIcedCoffeeLink.classList.add('hidden'); // All iced coffee visible initially
+    if (showAllNonCoffeeLink) showAllNonCoffeeLink.classList.add('hidden'); // All non-coffee visible initially
 
 
     // --- Show All Link Event Listeners ---
@@ -285,6 +395,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    if (showAllNonCoffeeLink) { // New: Show All Non-Coffee link
+        showAllNonCoffeeLink.addEventListener('click', (event) => {
+            event.preventDefault();
+            nonCoffeeProductContainer.querySelectorAll('.product-card.hidden').forEach(product => {
+                product.classList.remove('hidden');
+            });
+            showAllNonCoffeeLink.classList.add('hidden'); // Hide the "Show All" link
+        });
+    }
+
 
     // --- Product Card Click Logic (for all categories) ---
     productCards.forEach(card => {
@@ -303,6 +423,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error("Error parsing prices for product:", name, e, "Prices string:", pricesString);
             }
 
+            // Prioritize specific modals first
             if (modalType === 'basque-cheesecake') {
                 console.log("Opening specific modal for Burnt Basque Cheesecake.");
                 const bakersNote = card.dataset.bakersNote;
@@ -356,7 +477,46 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 openModal(basqueCheesecakeModal);
 
-            } else if (category === 'cakes') {
+            } else if (modalType === 'mini-waffles') { // This must be checked BEFORE the generic drink modal
+                console.log("Opening specific modal for Matcha Series.");
+
+                // Populate the matcha modal with product data
+                if (modalWafflesImage) modalWafflesImage.src = image || ''; // Initial image from product card
+                if (modalWafflesName) modalWafflesName.textContent = name || 'N/A'; // "Matcha Series"
+                if (modalWafflesDescription) modalWafflesDescription.textContent = description || 'No description available.';
+
+                // Reset selected options and add-ons for matcha modal
+                selectedWafflesOptions = {
+                    flavor: { value: null, price: 0, image: null },
+                    size: { value: null, price: 0 },
+                    milk: { value: null, price: 0 },
+                    sweetener: { value: null, price: 0 }
+                };
+                selectedWafflesAddOns = [];
+
+                // Deselect all buttons/checkboxes visually
+                wafflesFlavorButtons.forEach(btn => {
+                    btn.classList.remove('bg-indigo-100', 'text-indigo-800', 'ring-2', 'ring-indigo-500');
+                    btn.classList.add('bg-white', 'text-gray-700', 'hover:bg-gray-100');
+                });
+                wafflesOptionButtons.forEach(btn => {
+                    btn.classList.remove('bg-indigo-100', 'text-indigo-800', 'ring-2', 'ring-indigo-500');
+                    btn.classList.add('bg-white', 'text-gray-700', 'hover:bg-gray-100');
+                });
+                wafflesAddOnCheckboxes.forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+
+                // Store prices data for flavors on the modal for easy access
+                miniWafflesModal.dataset.currentPrices = pricesString;
+
+                // Initialize price to 0.00, it will be updated when a flavor is selected
+                currentWafflesBasePrice = 0;
+                updateWafflesTotalPrice();
+
+                openModal(miniWafflesModal);
+            
+            }    else if (category === 'cakes') {
                 console.log("Category is 'cakes'. Preparing standard cake modal.");
                 const bakersNote = card.dataset.bakersNote;
 
@@ -395,6 +555,94 @@ document.addEventListener('DOMContentLoaded', () => {
                 cookieOrderModal.dataset.currentPrices = pricesString;
 
                 openModal(cookieOrderModal);
+            } else if (modalType === 'matcha-series') { // This must be checked BEFORE the generic drink modal
+                console.log("Opening specific modal for Matcha Series.");
+
+                // Populate the matcha modal with product data
+                if (modalMatchaImage) modalMatchaImage.src = image || ''; // Initial image from product card
+                if (modalMatchaName) modalMatchaName.textContent = name || 'N/A'; // "Matcha Series"
+                if (modalMatchaDescription) modalMatchaDescription.textContent = description || 'No description available.';
+
+                // Reset selected options and add-ons for matcha modal
+                selectedMatchaOptions = {
+                    flavor: { value: null, price: 0, image: null },
+                    size: { value: null, price: 0 },
+                    milk: { value: null, price: 0 },
+                    sweetener: { value: null, price: 0 }
+                };
+                selectedMatchaAddOns = [];
+
+                // Deselect all buttons/checkboxes visually
+                matchaFlavorButtons.forEach(btn => {
+                    btn.classList.remove('bg-indigo-100', 'text-indigo-800', 'ring-2', 'ring-indigo-500');
+                    btn.classList.add('bg-white', 'text-gray-700', 'hover:bg-gray-100');
+                });
+                matchaOptionButtons.forEach(btn => {
+                    btn.classList.remove('bg-indigo-100', 'text-indigo-800', 'ring-2', 'ring-indigo-500');
+                    btn.classList.add('bg-white', 'text-gray-700', 'hover:bg-gray-100');
+                });
+                matchaAddOnCheckboxes.forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+
+                // Store prices data for flavors on the modal for easy access
+                matchaSeriesModal.dataset.currentPrices = pricesString;
+
+                // Initialize price to 0.00, it will be updated when a flavor is selected
+                currentMatchaBasePrice = 0;
+                updateMatchaTotalPrice();
+
+                openModal(matchaSeriesModal);
+            } else if (category === 'iced-coffee' || category === 'non-coffee') { // Generic Drink Modal - This is the fallback for drinks without specific modalType
+                console.log("Category is 'iced-coffee' or generic 'non-coffee'. Preparing drink modal.");
+
+                // Populate the drink modal with product data
+                if (modalDrinkImage) modalDrinkImage.src = image || '';
+                if (modalDrinkImage) modalDrinkImage.alt = name || '';
+                if (modalDrinkName) modalDrinkName.textContent = name || 'N/A';
+                if (modalDrinkDescription) modalDrinkDescription.textContent = description || 'No description available.';
+
+                // Hide/Show coffee-type section based on category
+                if (drinkCoffeeTypeSection) {
+                    if (category === 'iced-coffee') {
+                        drinkCoffeeTypeSection.classList.remove('hidden');
+                    } else {
+                        drinkCoffeeTypeSection.classList.add('hidden');
+                    }
+                }
+
+                // Reset selected options and add-ons for drink modal
+                selectedDrinkOptions = {
+                    size: { value: null, price: 0 },
+                    type: { value: null, price: 0 },
+                    'coffee-type': { value: null, price: 0 },
+                    milk: { value: null, price: 0 },
+                    sweetener: { value: null, price: 0 }
+                };
+                selectedDrinkAddOns = [];
+
+                // Deselect all buttons/checkboxes visually
+                drinkOptionButtons.forEach(btn => {
+                    btn.classList.remove('bg-indigo-100', 'text-indigo-800', 'ring-2', 'ring-indigo-500');
+                    btn.classList.add('bg-white', 'text-gray-700', 'hover:bg-gray-100');
+                });
+                drinkAddOnCheckboxes.forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+
+                // Set base price for the drink
+                let basePrice = 0;
+                if (prices.size && prices.size.Small) {
+                    basePrice = prices.size.Small;
+                } else if (card.dataset.price) { // Fallback to data-price if no size options
+                    basePrice = parseFloat(card.dataset.price);
+                }
+                currentDrinkBasePrice = basePrice;
+                
+                updateDrinkTotalPrice(); // Initialize price to base price or 0.00
+
+                openModal(drinkOrderModal);
+            
             }
         });
     });
@@ -422,6 +670,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    if (modalCloseButtonWaffles) { // Close button for Matcha Series modal
+        modalCloseButtonWaffles.addEventListener('click', () => closeModal(miniWafflesModal));
+    }
+    if (miniWafflesModal) {
+        miniWafflesModal.addEventListener('click', (event) => {
+            if (event.target === miniWafflesModal) {
+                closeModal(miniWafflesModal);
+            }
+        });
+    }
+
     if (modalCloseButtonCookie) {
         modalCloseButtonCookie.addEventListener('click', () => closeModal(cookieOrderModal));
     }
@@ -432,6 +691,30 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    if (modalCloseButtonDrink) { // Close button for Generic Drink modal
+        modalCloseButtonDrink.addEventListener('click', () => closeModal(drinkOrderModal));
+    }
+    if (drinkOrderModal) {
+        drinkOrderModal.addEventListener('click', (event) => {
+            if (event.target === drinkOrderModal) {
+                closeModal(drinkOrderModal);
+            }
+        });
+    }
+
+    if (modalCloseButtonMatcha) { // Close button for Matcha Series modal
+        modalCloseButtonMatcha.addEventListener('click', () => closeModal(matchaSeriesModal));
+    }
+    if (matchaSeriesModal) {
+        matchaSeriesModal.addEventListener('click', (event) => {
+            if (event.target === matchaSeriesModal) {
+                closeModal(matchaSeriesModal);
+            }
+        });
+    }
+
+    
 
     // --- Cookie Quantity Button Logic ---
     cookieQuantityButtons.forEach(button => {
@@ -543,6 +826,269 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // --- Generic Drink Option Buttons Logic (Size, Type, Milk, Sweetener, Coffee Type) ---
+    drinkOptionButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const optionType = this.dataset.optionType;
+            const optionValue = this.dataset.optionValue;
+            const optionPrice = parseFloat(this.dataset.optionPrice);
+
+            // Remove 'selected' classes from previously selected button of the same type
+            document.querySelectorAll(`#drink-order-modal .option-${optionType}`).forEach(btn => {
+                btn.classList.remove('bg-indigo-100', 'text-indigo-800', 'ring-2', 'ring-indigo-500');
+                btn.classList.add('bg-white', 'text-gray-700', 'hover:bg-gray-100');
+            });
+
+            // Add 'selected' classes to the clicked button
+            this.classList.add('bg-indigo-100', 'text-indigo-800', 'ring-2', 'ring-indigo-500');
+            this.classList.remove('bg-white', 'text-gray-700', 'hover:bg-gray-100');
+
+            // Update the selected option in our state
+            selectedDrinkOptions[optionType] = { value: optionValue, price: optionPrice };
+
+            updateDrinkTotalPrice();
+        });
+    });
+
+    // --- Generic Drink Add-on Checkboxes Logic ---
+    drinkAddOnCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            const addOnValue = this.dataset.addOnValue;
+            const addOnPrice = parseFloat(this.dataset.addOnPrice);
+
+            if (this.checked) {
+                selectedDrinkAddOns.push({ value: addOnValue, price: addOnPrice });
+            } else {
+                selectedDrinkAddOns = selectedDrinkAddOns.filter(item => item.value !== addOnValue);
+            }
+
+            updateDrinkTotalPrice();
+        });
+    });
+
+    // --- Function to update the total price for generic drinks ---
+    function updateDrinkTotalPrice() {
+        let totalPrice = currentDrinkBasePrice;
+
+        for (const optionType in selectedDrinkOptions) {
+            totalPrice += selectedDrinkOptions[optionType].price;
+        }
+
+        selectedDrinkAddOns.forEach(addOn => {
+            totalPrice += addOn.price;
+        });
+
+        drinkPricePlaceholder.textContent = totalPrice.toFixed(2);
+    }
+
+
+    // --- Matcha Flavor Buttons Logic ---
+    matchaFlavorButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const flavor = this.dataset.flavor;
+            const basePrice = parseFloat(this.dataset.basePrice);
+            const imageSrc = this.dataset.imageSrc;
+
+            // Remove 'selected' classes from all flavor buttons
+            matchaFlavorButtons.forEach(btn => {
+                btn.classList.remove('bg-indigo-100', 'text-indigo-800', 'ring-2', 'ring-indigo-500');
+                btn.classList.add('bg-white', 'text-gray-700', 'hover:bg-gray-100');
+            });
+
+            // Add 'selected' classes to the clicked button
+            this.classList.add('bg-indigo-100', 'text-indigo-800', 'ring-2', 'ring-indigo-500');
+            this.classList.remove('bg-white', 'text-gray-700', 'hover:bg-gray-100');
+
+            // Update image and name
+            if (modalMatchaImage) modalMatchaImage.src = imageSrc;
+            if (modalMatchaName) modalMatchaName.textContent = flavor;
+
+            // Update selected flavor in state and base price
+            selectedMatchaOptions.flavor = { value: flavor, price: basePrice, image: imageSrc };
+            currentMatchaBasePrice = basePrice; // Set the base price for the entire modal calculation
+
+            updateMatchaTotalPrice();
+        });
+    });
+
+    // --- Matcha Option Buttons Logic (Size, Milk, Sweetener) ---
+    matchaOptionButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const optionType = this.dataset.optionType;
+            const optionValue = this.dataset.optionValue;
+            const optionPrice = parseFloat(this.dataset.optionPrice);
+
+            // Remove 'selected' classes from previously selected button of the same type
+            document.querySelectorAll(`#matcha-series-modal .option-${optionType}`).forEach(btn => {
+                btn.classList.remove('bg-indigo-100', 'text-indigo-800', 'ring-2', 'ring-indigo-500');
+                btn.classList.add('bg-white', 'text-gray-700', 'hover:bg-gray-100');
+            });
+
+            // Add 'selected' classes to the clicked button
+            this.classList.add('bg-indigo-100', 'text-indigo-800', 'ring-2', 'ring-indigo-500');
+            this.classList.remove('bg-white', 'text-gray-700', 'hover:bg-gray-100');
+
+            // Update the selected option in our state
+            selectedMatchaOptions[optionType] = { value: optionValue, price: optionPrice };
+
+            updateMatchaTotalPrice();
+        });
+    });
+
+    // --- Matcha Add-on Checkboxes Logic ---
+    matchaAddOnCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            const addOnValue = this.dataset.addOnValue;
+            const addOnPrice = parseFloat(this.dataset.addOnPrice);
+
+            if (this.checked) {
+                selectedMatchaAddOns.push({ value: addOnValue, price: addOnPrice });
+            } else {
+                selectedMatchaAddOns = selectedMatchaAddOns.filter(item => item.value !== addOnValue);
+            }
+
+            updateMatchaTotalPrice();
+        });
+    });
+
+    // --- Function to update the total price for Matcha Series ---
+    function updateMatchaTotalPrice() {
+        let totalPrice = currentMatchaBasePrice;
+
+        // Add prices from selected options (size, milk, sweetener)
+        for (const optionType in selectedMatchaOptions) {
+            // Skip 'flavor' as its price is already in currentMatchaBasePrice
+            if (optionType !== 'flavor') {
+                totalPrice += selectedMatchaOptions[optionType].price;
+            }
+        }
+
+        // Add prices from selected add-ons
+        selectedMatchaAddOns.forEach(addOn => {
+            totalPrice += addOn.price;
+        });
+
+        matchaPricePlaceholder.textContent = totalPrice.toFixed(2);
+    }
+
+    // --- Matcha Flavor Buttons Logic ---
+    matchaFlavorButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const flavor = this.dataset.flavor;
+            const basePrice = parseFloat(this.dataset.basePrice);
+            const imageSrc = this.dataset.imageSrc;
+
+            // Remove 'selected' classes from all flavor buttons
+            matchaFlavorButtons.forEach(btn => {
+                btn.classList.remove('bg-indigo-100', 'text-indigo-800', 'ring-2', 'ring-indigo-500');
+                btn.classList.add('bg-white', 'text-gray-700', 'hover:bg-gray-100');
+            });
+
+            // Add 'selected' classes to the clicked button
+            this.classList.add('bg-indigo-100', 'text-indigo-800', 'ring-2', 'ring-indigo-500');
+            this.classList.remove('bg-white', 'text-gray-700', 'hover:bg-gray-100');
+
+            // Update image and name
+            if (modalMatchaImage) modalMatchaImage.src = imageSrc;
+            if (modalMatchaName) modalMatchaName.textContent = flavor;
+
+            // Update selected flavor in state and base price
+            selectedMatchaOptions.flavor = { value: flavor, price: basePrice, image: imageSrc };
+            currentMatchaBasePrice = basePrice; // Set the base price for the entire modal calculation
+
+            updateMatchaTotalPrice();
+        });
+    });
+
+    // --- Mini Waffles Option Buttons Logic (Size, Milk, Sweetener) ---
+    wafflesOptionButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const optionType = this.dataset.optionType;
+            const optionValue = this.dataset.optionValue;
+            const optionPrice = parseFloat(this.dataset.optionPrice);
+
+            // Remove 'selected' classes from previously selected button of the same type
+            document.querySelectorAll(`#mini-waffles-modal .option-${optionType}`).forEach(btn => {
+                btn.classList.remove('bg-indigo-100', 'text-indigo-800', 'ring-2', 'ring-indigo-500');
+                btn.classList.add('bg-white', 'text-gray-700', 'hover:bg-gray-100');
+            });
+
+            // Add 'selected' classes to the clicked button
+            this.classList.add('bg-indigo-100', 'text-indigo-800', 'ring-2', 'ring-indigo-500');
+            this.classList.remove('bg-white', 'text-gray-700', 'hover:bg-gray-100');
+
+            // Update the selected option in our state
+            selectedWafflesOptions[optionType] = { value: optionValue, price: optionPrice };
+
+            updateWafflesTotalPrice();
+        });
+    });
+
+    // --- Waffles Add-on Checkboxes Logic ---
+    wafflesAddOnCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            const addOnValue = this.dataset.addOnValue;
+            const addOnPrice = parseFloat(this.dataset.addOnPrice);
+
+            if (this.checked) {
+                selectedWafflesAddOns.push({ value: addOnValue, price: addOnPrice });
+            } else {
+                selectedWafflesAddOns = selectedWafflesAddOns.filter(item => item.value !== addOnValue);
+            }
+
+            updateWafflesTotalPrice();
+        });
+    });
+
+    // --- Function to update the total price for mini waffles ---
+    function updateWafflesTotalPrice() {
+        let totalPrice = currentWafflesBasePrice;
+
+        // Add prices from selected options (size, milk, sweetener)
+        for (const optionType in selectedWafflesOptions) {
+            // Skip 'flavor' as its price is already in currentMatchaBasePrice
+            if (optionType !== 'flavor') {
+                totalPrice += selectedWafflesOptions[optionType].price;
+            }
+        }
+
+        // Add prices from selected add-ons
+        selectedWafflesAddOns.forEach(addOn => {
+            totalPrice += addOn.price;
+        });
+
+        wafflesPricePlaceholder.textContent = totalPrice.toFixed(2);
+    }
+    // --- Matcha Flavor Buttons Logic ---
+    wafflesFlavorButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const flavor = this.dataset.flavor;
+            const basePrice = parseFloat(this.dataset.basePrice);
+            const imageSrc = this.dataset.imageSrc;
+
+            // Remove 'selected' classes from all flavor buttons
+            wafflesFlavorButtons.forEach(btn => {
+                btn.classList.remove('bg-indigo-100', 'text-indigo-800', 'ring-2', 'ring-indigo-500');
+                btn.classList.add('bg-white', 'text-gray-700', 'hover:bg-gray-100');
+            });
+
+            // Add 'selected' classes to the clicked button
+            this.classList.add('bg-indigo-100', 'text-indigo-800', 'ring-2', 'ring-indigo-500');
+            this.classList.remove('bg-white', 'text-gray-700', 'hover:bg-gray-100');
+
+            // Update image and name
+            if (modalWafflesImage) modalWafflesImage.src = imageSrc;
+            if (modalWafflesName) modalWafflesName.textContent = flavor;
+
+            // Update selected flavor in state and base price
+            selectedWafflesOptions.flavor = { value: flavor, price: basePrice, image: imageSrc };
+            currentWafflesBasePrice = basePrice; // Set the base price for the entire modal calculation
+
+            updateWafflesTotalPrice();
+        });
+    });
+
+
     // --- Facebook Order Button Logic (Standard Cake) ---
     if (facebookOrderButton) {
         facebookOrderButton.addEventListener('click', (event) => {
@@ -564,6 +1110,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Since it's an <a> tag, the default behavior will handle the navigation.
         });
     }
+
 
     // Call filterProducts initially to set up the default view
     filterProducts();
