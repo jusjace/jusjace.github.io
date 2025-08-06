@@ -198,6 +198,16 @@
         .modal-content .price-display span {
             font-size: inherit !important; /* Ensure span inherits the adjusted font size */
         }
+        /* New rules for Facebook buttons in modals on mobile */
+        .modal-body a.bg-blue-600 { /* Target the Facebook button by its background color */
+            padding: 0.75rem 1rem !important; /* Reduce vertical padding */
+            font-size: 0.855rem !important; /* Smaller font size */
+        }
+
+        .modal-body a.bg-blue-600 svg { /* Target the SVG icon inside the Facebook button */
+            width: 1.25rem !important; /* Smaller icon width (h-5, w-5) */
+            height: 1.25rem !important; /* Smaller icon height (h-5, w-5) */
+        }
     }
     </style>
 </head>
@@ -1164,6 +1174,7 @@
     <script src="js/script.js" type="module"></script>
 </body>
 </html>
+
 
 
 
