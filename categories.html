@@ -97,9 +97,8 @@
         }
         @media (max-width: 800px) {
         .product-card {
-            padding: 0.1rem; /* Reduced padding for a more compact card */
+            padding: 0.0rem; /* Reduced padding for a more compact card */
         }
-
         .product-card > img {
             width: 100px; /* Reduced image size */
             height: 100px; /* Reduced image size */
@@ -108,14 +107,17 @@
 
         .product-card h3 {
             font-size: 0.875rem; /* Smaller font for product name */
+            margin-bottom: -0.25rem;
         }
 
         .product-card p {
             font-size: 0.75rem; /* Smaller font for details */
+            margin-bottom: 0.20rem;
         }
 
         .product-card .text-xl {
-            font-size: 1.25rem; /* Smaller font for price */
+            font-size: 1.35rem; /* Smaller font for price */
+            margin-bottom: -0.15rem;
         }
         /* Mobile specific styles for "Made To Order" and availability */
         .product-card .flex.items-center.justify-between.w-full.text-sm.mt-auto {
@@ -128,6 +130,7 @@
         }
         .product-card .availability-status {
             margin-left: 0; /* Remove left margin for centering */
+            
         }
     }
     </style>
@@ -1095,6 +1098,7 @@
     <script src="js/script.js" type="module"></script>
 </body>
 </html>
+
 
 
 
