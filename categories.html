@@ -416,8 +416,8 @@
                          data-category="pastries"
                          data-name="Blackout Cookie"
                          data-image="menu/Blackout.png"
-                         data-description="For the true chocolate lover, a rich double chocolate cookie with white and dark chocolate chips."
-                         data-prices='{"1": 35.00, "4": 550.00, "6": 190.00, "12": 1500.00}'
+                         data-description="For the true chocolate lover, a rich double chocolate cookie with dark chocolate chips and callets."
+                         data-prices='{"1": 35.00,"6": 190.00}'
                          data-price="35.00"> <!-- Added data-price for filtering -->
                         <img src="menu/Blackout.png" alt="Blackout Cookie" class="w-32 h-32 rounded-full object-cover mb-4">
                         <h3 class="text-lg font-semibold text-gray-800">Blackout Cookie</h3>
@@ -443,6 +443,24 @@
                         <h3 class="text-lg font-semibold text-gray-800">Matcha White Choco Cookie</h3>
                         <p class="text-sm text-gray-500 mb-2">Sweet Treats</p>
                         <p class="text-xl font-bold text-purple-700 mb-1">₱35.00</p>
+                        <p class="text-xs text-gray-400 mb-3">(Starting Price)</p>
+                        <div class="flex flex-col sm:flex-row items-center sm:justify-between w-full text-sm mt-auto">
+                            <span class="text-gray-600 text-xs mb-1 sm:mb-0 sm:order-none">Made To Order</span>
+                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">AVAILABLE</span>
+                        </div>
+                    </div>
+
+                    <div class="product-card bg-white rounded-xl shadow-lg p-4 flex flex-col items-center text-center transition-all duration-300 hover:scale-105 hover:shadow-xl cursor-pointer"
+                         data-category="pastries"
+                         data-name="Assorted Cookie"
+                         data-image="menu/assorted.png"
+                         data-description="For the discerning cookie lover, a curated collection of our finest: 2pcs classic chocolate chip, 2pcs vibrant matcha white chocolate, and a 2pcs deeply decadent blackout cookie."
+                         data-prices='{"6": 180.00}'
+                         data-price="180.00"> <!-- Added data-price for filtering -->
+                        <img src="menu/assorted.png" alt="Assorted Cookie" class="w-32 h-32 rounded-full object-cover mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Assorted Cookie</h3>
+                        <p class="text-sm text-gray-500 mb-2">Sweet Treats</p>
+                        <p class="text-xl font-bold text-purple-700 mb-1">₱180.00</p>
                         <p class="text-xs text-gray-400 mb-3">(Starting Price)</p>
                         <div class="flex flex-col sm:flex-row items-center sm:justify-between w-full text-sm mt-auto">
                             <span class="text-gray-600 text-xs mb-1 sm:mb-0 sm:order-none">Made To Order</span>
@@ -1194,6 +1212,7 @@
     <script src="js/script.js" type="module"></script>
 </body>
 </html>
+
 
 
 
